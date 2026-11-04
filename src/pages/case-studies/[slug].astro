@@ -1,0 +1,61 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getPublishedCaseStudies } from '../../lib/content.ts';
+import type { BreadcrumbItem } from '../../types/site.ts';
+
+export async function getStaticPaths() {
+  const cases = await getPublishedCaseStudies();
+  return cases.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'case-studies'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const breadcrumbs: BreadcrumbItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Case Studies', href: '/case-studies/' },
+  { label: entry.data.title },
+];
+---
+
+<PageLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  path={`/case-studies/${entry.data.slug}/`}
+  canonicalURL={entry.data.canonicalURL}
+  breadcrumbs={breadcrumbs}
+  noindex={entry.data.draft || !entry.data.approvedForPublication}
+>
+  <article class="content-article">
+    <header class="article-header">
+      <p class="article-meta">
+        <span class="industry">{entry.data.industry}</span>
+      </p>
+      <p class="article-lead">{entry.data.description}</p>
+    </header>
+
+    <div class="article-body prose">
+      {entry.data.metrics && entry.data.metrics.length > 0 && (
+        <div class="metrics-grid">
+          {entry.data.metrics.map((metric) => (
+            <div class="metric-card">
+              <span class="metric-value">
+                {metric.value} {metric.unit}
+              </span>
+              <span class="metric-name">{metric.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <Content />
+    </div>
+  </article>
+</PageLayout>

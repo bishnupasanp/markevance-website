@@ -1,0 +1,32 @@
+---
+import Container from '../ui/Container.astro';
+import LinkButton from '../ui/LinkButton.astro';
+import Icon from '../ui/Icon.astro';
+import { homeCopy as copy } from '../../data/home.ts';
+---
+
+<section
+  class="home-section final-cta"
+  data-theme="dark"
+  aria-labelledby="consultation-title"
+>
+  <Container>
+    <p class="eyebrow">{copy.final.eyebrow}</p>
+    <div class="final-cta-layout">
+      <h2 id="consultation-title">{copy.final.title}</h2>
+      <div>
+        <p>{copy.final.copy}</p>
+        <div class="home-actions">
+          <LinkButton href="/book-consultation/">
+            {copy.final.primary}
+            <Icon />
+          </LinkButton>
+          <a class="home-text-link" href="/contact/">
+            {copy.final.secondary}
+            <Icon name="arrow-up-right" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

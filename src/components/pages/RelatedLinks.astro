@@ -1,0 +1,21 @@
+---
+import type { PageLink } from '../../types/public-pages.ts';
+interface Props {
+  links: readonly PageLink[];
+}
+const { links } = Astro.props;
+---
+
+<nav class="related-links" aria-label="Related pages">
+  <h2>Continue through the system.</h2>
+  <ul>
+    {links.map((link) => (
+      <li>
+        <a class="text-link" href={link.href}>
+          {link.label}
+          <span aria-hidden="true"> ↗</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

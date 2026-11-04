@@ -1,0 +1,40 @@
+---
+import Container from '../ui/Container.astro';
+import NewsletterForm from '../forms/NewsletterForm.astro';
+import { newsletterCopy } from '../../data/newsletter.ts';
+---
+
+<section
+  class="newsletter-section home-section"
+  aria-labelledby="newsletter-title"
+>
+  <Container class="newsletter-layout">
+    <div>
+      <p class="eyebrow">{newsletterCopy.eyebrow}</p>
+      <h2 id="newsletter-title">{newsletterCopy.title}</h2>
+      <p class="newsletter-description">{newsletterCopy.description}</p>
+    </div>
+    <NewsletterForm id="newsletter-inline" placement="inline" />
+  </Container>
+</section>
+
+<style>
+  .newsletter-section {
+    background: var(--color-background-light);
+    border-top: 1px solid var(--border-light);
+  }
+  :global(.newsletter-layout) {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .newsletter-description {
+    margin-top: 1.5rem;
+    max-width: 42ch;
+  }
+  @media (min-width: 64rem) {
+    :global(.newsletter-layout) {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 4rem;
+    }
+  }
+</style>

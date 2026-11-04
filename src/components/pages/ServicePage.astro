@@ -1,0 +1,115 @@
+---
+import Container from '../ui/Container.astro';
+import ProcessFlow from './ProcessFlow.astro';
+import RelatedLinks from './RelatedLinks.astro';
+import PageCTA from './PageCTA.astro';
+import ServiceExplainer from '../motion/ServiceExplainer.astro';
+import type { ServiceDefinition } from '../../types/public-pages.ts';
+interface Props {
+  service: ServiceDefinition;
+}
+const { service } = Astro.props;
+---
+
+<section class="page-band page-band-light" aria-labelledby="service-problem">
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">THE BUSINESS PROBLEM</p>
+        <h2 id="service-problem">{service.problem.title}</h2>
+      </div>
+      <div class="page-copy">
+        {service.problem.paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    </div>
+    <div class="audience-row">
+      <h3>Who this is for</h3>
+      <ul>
+        {service.audience.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </Container>
+</section>
+<section class="page-band" data-theme="dark" aria-labelledby="service-work">
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">SCOPE OF WORK</p>
+        <h2 id="service-work">What Markevance does.</h2>
+      </div>
+      <div>
+        <p class="section-context">
+          The work is scoped around the bottleneck and the team responsible for
+          the next step.
+        </p>
+      </div>
+    </div>
+    <ServiceExplainer service={service} />
+  </Container>
+</section>
+<section class="page-band" data-theme="dark" aria-labelledby="service-process">
+  <Container>
+    <p class="eyebrow">OPERATING SEQUENCE</p>
+    <h2 id="service-process">A process with a defined handoff.</h2>
+    <ProcessFlow
+      steps={service.process}
+      caption="Illustrative service process. Sequence and scope are agreed for each engagement."
+      qualificationIndex={
+        service.path === '/services/b2b-lead-generation/' ||
+        service.path === '/services/fractional-sdr/'
+          ? 2
+          : undefined
+      }
+    />
+    <div class="system-connection">
+      <h3>Connection to the Growth System</h3>
+      <div class="page-copy">
+        <p>{service.connection}</p>
+        <a class="text-link" href="/how-we-work/">
+          Explore the operating model
+        </a>
+      </div>
+    </div>
+  </Container>
+</section>
+<section class="page-band page-band-light" aria-labelledby="service-outcomes">
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">OUTCOMES & ACCOUNTABILITY</p>
+        <h2 id="service-outcomes">Measure what moves the business forward.</h2>
+      </div>
+      <div class="page-copy">
+        <p>{service.outcomes}</p>
+        {service.path === '/services/seo-aeo-geo/' && (
+          <p class="source-note">
+            Reference:{' '}
+            <a
+              class="text-link"
+              href="https://developers.google.com/search/docs/appearance/ai-features"
+            >
+              Google Search Central: AI features and your website
+            </a>
+            .
+          </p>
+        )}
+        <h3>What we track</h3>
+        <ul class="measure-list">
+          {service.measures.map((measure) => (
+            <li>{measure}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="responsibility-note">
+      <h3>Where the scope stops</h3>
+      <p>{service.boundary}</p>
+    </div>
+    <RelatedLinks links={service.related} />
+  </Container>
+</section>
+<PageCTA />

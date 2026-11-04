@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../data/site.ts';
+import SkipLink from '../components/layout/SkipLink.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import SEOHead from '../components/seo/SEOHead.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { organizationSchema, websiteSchema } from '../lib/structured-data.ts';
+import type { PageMetadata } from '../types/seo.ts';
+interface Props {
+  metadata: PageMetadata;
+}
+const { metadata } = Astro.props;
+---
+
+<!doctype html>
+<html lang={siteConfig.language}>
+  <head>
+    <SEOHead metadata={metadata} />
+    <JsonLd data={organizationSchema()} />
+    <JsonLd data={websiteSchema()} />
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink />
+    <SiteHeader />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

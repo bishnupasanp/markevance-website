@@ -1,0 +1,124 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import LinkButton from '../components/ui/LinkButton.astro';
+import Container from '../components/ui/Container.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import ServicePage from '../components/pages/ServicePage.astro';
+import IndustryPage from '../components/pages/IndustryPage.astro';
+import OverviewPage from '../components/pages/OverviewPage.astro';
+import CompanyPage from '../components/pages/CompanyPage.astro';
+import ContactPage from '../components/pages/ContactPage.astro';
+import LibraryPage from '../components/pages/LibraryPage.astro';
+import LegalPage from '../components/pages/LegalPage.astro';
+import { getRoute, routes } from '../data/routes.ts';
+import { services } from '../data/services.ts';
+import { industries } from '../data/industries.ts';
+import { legalPages } from '../data/legal.ts';
+import { getPublicPage } from '../data/public-pages.ts';
+import { serviceSchema } from '../lib/structured-data.ts';
+import type { BreadcrumbItem, RouteDefinition } from '../types/site.ts';
+
+// Registry-generated static routes. Dedicated home/consultation and collection
+// routes remain separate; this file never handles arbitrary URLs at runtime.
+export const getStaticPaths = (() =>
+  routes
+    .filter(
+      (route) => route.path !== '/' && route.path !== '/book-consultation/',
+    )
+    .map((route) => ({
+      params: { path: route.path.slice(1, -1) },
+      props: { route },
+    }))) satisfies GetStaticPaths;
+interface Props {
+  route: RouteDefinition;
+}
+const { route } = Astro.props;
+const breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }];
+if (route.parent)
+  breadcrumbs.push({ label: getRoute(route.parent).title, href: route.parent });
+breadcrumbs.push({ label: route.title });
+const service = services.find((entry) => entry.path === route.path);
+const industry = industries.find((entry) => entry.path === route.path);
+const legal = legalPages.find((entry) => entry.path === route.path);
+const page = getPublicPage(route.path);
+const content = service ?? industry ?? legal ?? page;
+if (!content) throw new Error(`Missing V1 page content: ${route.path}`);
+const heading =
+  service?.headline ?? industry?.headline ?? page?.headline ?? legal?.title;
+const eyebrow = service
+  ? 'CONNECTED CAPABILITY'
+  : industry
+    ? 'PRIMARY INDUSTRY'
+    : legal
+      ? 'WEBSITE INFORMATION'
+      : page?.eyebrow;
+---
+
+<PageLayout
+  title={content.title}
+  heading={heading}
+  eyebrow={eyebrow}
+  intro={content.intro}
+  description={content.description}
+  path={route.path}
+  breadcrumbs={breadcrumbs}
+  noindex={!route.indexable}
+  fullWidth
+>
+  {service && (
+    <JsonLd
+      slot="head"
+      data={serviceSchema(service.name, service.description, service.path)}
+    />
+  )}
+  {(service || industry) && (
+    <div slot="hero" class="foundation-links">
+      <LinkButton href="/book-consultation/">
+        Book a Growth Consultation
+      </LinkButton>
+      <LinkButton href="/how-we-work/" variant="secondary">
+        See how we work
+      </LinkButton>
+    </div>
+  )}
+  {service ? (
+    <ServicePage service={service} />
+  ) : industry ? (
+    <IndustryPage industry={industry} />
+  ) : legal ? (
+    <LegalPage page={legal} />
+  ) : route.path === '/services/' ? (
+    <OverviewPage kind="services" />
+  ) : route.path === '/industries/' ? (
+    <OverviewPage kind="industries" />
+  ) : route.path === '/how-we-work/' ? (
+    <CompanyPage kind="process" />
+  ) : route.path === '/about/' ? (
+    <CompanyPage kind="about" />
+  ) : route.path === '/contact/' ? (
+    <ContactPage />
+  ) : route.path === '/insights/' ? (
+    <LibraryPage kind="insights" />
+  ) : route.path === '/case-studies/' ? (
+    <LibraryPage kind="case-studies" />
+  ) : (
+    <section class="page-band page-band-light">
+      <Container>
+        <h2>Requests are unavailable</h2>
+        <p class="section-context">
+          No enquiry has been sent and no booking is confirmed. You can read
+          about the consultation or return to the homepage.
+        </p>
+        <div class="foundation-links">
+          <LinkButton href="/book-consultation/">
+            Consultation information
+          </LinkButton>
+          <LinkButton href="/" variant="secondary">
+            Return home
+          </LinkButton>
+        </div>
+      </Container>
+    </section>
+  )}
+</PageLayout>

@@ -1,0 +1,141 @@
+---
+import Icon from '../ui/Icon.astro';
+import { logoAssets } from '../../data/logo.ts';
+import type { SitePath } from '../../types/site.ts';
+import '../../styles/service-hub.css';
+
+const destinations: readonly {
+  name: string;
+  note: string;
+  href: SitePath;
+  drawing: string;
+}[] = [
+  {
+    name: 'B2B Lead Generation',
+    note: 'FIND YOUR BUYERS',
+    href: '/services/b2b-lead-generation/',
+    drawing:
+      'M12 34h14l10-20h16 M26 34l10 12h16 M10 30v8 M50 10h8v8h-8z M50 42h8v8h-8z',
+  },
+  {
+    name: 'Paid Acquisition',
+    note: 'CREATE DEMAND',
+    href: '/services/paid-acquisition/',
+    drawing: 'M12 48V34h8v14 M28 48V24h8v24 M44 48V12h8v36 M8 52h48',
+  },
+  {
+    name: 'SEO + AEO + GEO',
+    note: 'BE DISCOVERED',
+    href: '/services/seo-aeo-geo/',
+    drawing:
+      'M40 24a14 14 0 1 1-28 0 14 14 0 0 1 28 0z M36 35l16 17 M18 24h16 M26 16v16',
+  },
+  {
+    name: 'Fractional SDR',
+    note: 'START CONVERSATIONS',
+    href: '/services/fractional-sdr/',
+    drawing: 'M10 12h38v24H26L16 44v-8h-6z M22 22h14 M22 28h8 M38 42h10l8 8V26',
+  },
+  {
+    name: 'CRM & Automation',
+    note: 'CONNECT THE FOLLOW-UP',
+    href: '/services/crm-automation/',
+    drawing:
+      'M26 8h12v12H26z M8 44h12v12H8z M44 44h12v12H44z M32 20v12 M14 44V32h36v12 M28 44h8v12h-8z M32 32v12',
+  },
+  {
+    name: 'Growth System',
+    note: 'SEE HOW IT CONNECTS',
+    href: '/how-we-work/',
+    drawing: 'M8 32h48 M8 26v12 M24 20v24 M40 14v36 M56 8v48',
+  },
+];
+const monogram = logoAssets.dark?.mark;
+---
+
+<div class="growth-hub" data-growth-hub>
+  <div class="growth-hub-stage">
+    <svg
+      class="growth-hub-connections"
+      viewBox="0 0 1000 440"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <ellipse
+        cx="500"
+        cy="220"
+        rx="425"
+        ry="152"
+        transform="rotate(-12 500 220)"
+      />
+      <ellipse
+        cx="500"
+        cy="220"
+        rx="425"
+        ry="152"
+        transform="rotate(12 500 220)"
+      />
+      <path
+        class="hub-spokes"
+        d="M500 220 230 78 M500 220 770 78 M500 220 100 220 M500 220 900 220 M500 220 230 362 M500 220 770 362"
+      />
+    </svg>
+    <div class="growth-hub-center">
+      {monogram && (
+        <img
+          class="hub-brand-mark"
+          src={monogram.src}
+          width={monogram.width}
+          height={monogram.height}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+        />
+      )}
+      <strong>MARKEVANCE</strong>
+      <span class="hub-center-tagline">
+        Create demand.
+        <br />
+        Build pipeline.
+        <br />
+        Advance growth.
+      </span>
+    </div>
+    <nav
+      class="growth-hub-links"
+      aria-label="Explore Markevance services and growth system"
+    >
+      {destinations.map((item, index) => (
+        <a class={`hub-satellite hub-satellite-${index + 1}`} href={item.href}>
+          <span class="hub-satellite-surface">
+            <svg
+              class="hub-service-diagram"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              aria-hidden="true"
+            >
+              <path d={item.drawing} />
+            </svg>
+            <span class="hub-service-note">{item.note}</span>
+            <strong>{item.name}</strong>
+            <Icon name="arrow-up-right" />
+          </span>
+        </a>
+      ))}
+    </nav>
+  </div>
+  <div class="growth-hub-footer">
+    <span>Explore a service. See how the work connects.</span>
+    <button
+      type="button"
+      class="hub-motion-toggle"
+      data-hub-toggle
+      aria-pressed="false"
+      hidden
+    >
+      Pause motion
+    </button>
+  </div>
+</div>

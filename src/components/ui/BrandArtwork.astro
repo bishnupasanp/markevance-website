@@ -1,0 +1,126 @@
+---
+import type { LogoTheme, LogoVariant } from '../../data/logo.ts';
+
+interface Props {
+  theme?: LogoTheme;
+  variant?: Exclude<LogoVariant, 'mark'>;
+}
+const { theme = 'dark', variant = 'lockup' } = Astro.props;
+// Coordinates and proportions follow the supplied SVG for each layout.
+const artwork = {
+  lockup: {
+    width: 1350,
+    height: 300,
+    symbol: 'translate(40, 32)',
+    x: 360,
+    y: 150,
+    size: 88,
+    tracking: '0.05em',
+    anchor: 'start',
+    descriptorX: 365,
+    descriptorY: 225,
+    descriptorSize: 20,
+  },
+  stacked: {
+    width: 800,
+    height: 520,
+    symbol: 'translate(287.5, 55) scale(0.9)',
+    x: 400,
+    y: 375,
+    size: 68,
+    tracking: '0.06em',
+    anchor: 'middle',
+    descriptorX: 400,
+    descriptorY: 430,
+    descriptorSize: 15,
+  },
+  wordmark: {
+    width: 1000,
+    height: 220,
+    symbol: undefined,
+    x: 500,
+    y: 132,
+    size: 86,
+    tracking: '0.06em',
+    anchor: 'middle',
+    descriptorX: 0,
+    descriptorY: 0,
+    descriptorSize: 0,
+  },
+}[variant];
+---
+
+<!-- Supplied SVG geometry and lettering, rendered inline so the local Plex font applies. -->
+<svg
+  class="brand-artwork"
+  data-brand-theme={theme}
+  data-brand-variant={variant}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={`0 0 ${artwork.width} ${artwork.height}`}
+  width={artwork.width}
+  height={artwork.height}
+  preserveAspectRatio="xMinYMid meet"
+  aria-hidden="true"
+  focusable="false"
+>
+  <rect
+    class="brand-background"
+    width={artwork.width}
+    height={artwork.height}
+  />
+  {artwork.symbol && (
+    <g class="brand-symbol" transform={artwork.symbol}>
+      <polygon points="0,0 0,43 125,159 250,43 250,0 125,116" />
+      <polygon points="0,75 0,235 33,235 33,149 125,235 217,149 217,235 250,235 250,75 125,191" />
+    </g>
+  )}
+  <text
+    class="brand-wordmark"
+    x={artwork.x}
+    y={artwork.y}
+    font-size={artwork.size}
+    font-weight="700"
+    letter-spacing={artwork.tracking}
+    text-anchor={artwork.anchor}
+  >
+    MARKEVANCE
+  </text>
+  {artwork.descriptorSize > 0 && (
+    <text
+      class="brand-descriptor"
+      x={artwork.descriptorX}
+      y={artwork.descriptorY}
+      font-size={artwork.descriptorSize}
+      font-weight="600"
+      letter-spacing="0.28em"
+      text-anchor={artwork.anchor}
+    >
+      GROWTH MARKETING &amp; SALES DEVELOPMENT
+    </text>
+  )}
+</svg>
+
+<style>
+  .brand-artwork {
+    font-family: var(--font-sans);
+  }
+  .brand-background {
+    fill: var(--color-background-dark);
+  }
+  .brand-symbol,
+  .brand-descriptor {
+    fill: var(--color-accent-prestige);
+  }
+  .brand-wordmark {
+    fill: var(--color-text-light);
+  }
+  [data-brand-theme='light'] .brand-background {
+    fill: var(--color-background-light);
+  }
+  [data-brand-theme='light'] :is(.brand-symbol, .brand-wordmark) {
+    fill: var(--color-text-dark);
+  }
+  [data-brand-theme='light'] .brand-descriptor {
+    fill: var(--color-brand);
+  }
+</style>

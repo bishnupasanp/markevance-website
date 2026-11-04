@@ -1,0 +1,22 @@
+---
+interface Props {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  id?: string;
+  class?: string;
+}
+const { level = 2, id, class: className } = Astro.props;
+const tags = { 1: 'h1', 2: 'h2', 3: 'h3', 4: 'h4', 5: 'h5', 6: 'h6' } as const;
+const Tag = tags[level];
+const sizes = {
+  1: 'text-h1',
+  2: 'text-h2',
+  3: 'text-h3',
+  4: 'text-body-large',
+  5: 'text-body',
+  6: 'text-body',
+};
+---
+
+<Tag id={id} class:list={[sizes[level], className]}>
+  <slot />
+</Tag>

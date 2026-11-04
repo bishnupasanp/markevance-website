@@ -1,0 +1,180 @@
+---
+import Container from '../ui/Container.astro';
+import RelatedLinks from './RelatedLinks.astro';
+import {
+  getPublishedInsights,
+  getPublishedCaseStudies,
+} from '../../lib/content.ts';
+interface Props {
+  kind: 'insights' | 'case-studies';
+}
+const { kind } = Astro.props;
+const insights = kind === 'insights' ? await getPublishedInsights() : [];
+const cases = kind === 'case-studies' ? await getPublishedCaseStudies() : [];
+const topics = [
+  {
+    name: 'B2B Growth',
+    copy: 'Target accounts, lead quality, buying problems and commercial handoffs.',
+  },
+  {
+    name: 'Technology Marketing',
+    copy: 'How complex products become clear propositions and relevant buying conversations.',
+  },
+  {
+    name: 'Education Marketing',
+    copy: 'Programme information, enquiry quality and counselling-to-admission measurement.',
+  },
+  {
+    name: 'SEO & AI Search',
+    copy: 'Technical access, useful content and observable search discovery.',
+  },
+  {
+    name: 'Sales Development',
+    copy: 'Prospect research, qualification, follow-up and meeting context.',
+  },
+];
+const standards = [
+  {
+    name: 'Situation and diagnosis',
+    copy: 'The original business problem, starting conditions and why a particular approach was chosen.',
+  },
+  {
+    name: 'Work and timeframe',
+    copy: 'What Markevance actually did, the client’s contribution and the period the work covers.',
+  },
+  {
+    name: 'Evidence and definitions',
+    copy: 'The source of each result, the baseline where available and a clear definition of the metric.',
+  },
+  {
+    name: 'Permission and limitations',
+    copy: 'Approval to identify the client or use their material, plus attribution limits and lessons.',
+  },
+];
+---
+
+<section class="page-band page-band-light" aria-labelledby="library-status">
+  <Container>
+    {kind === 'insights' ? (
+      <>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">PUBLICATION STATUS</p>
+            <h2 id="library-status">
+              {insights.length
+                ? 'Published insights.'
+                : 'The first articles are still being prepared.'}
+            </h2>
+          </div>
+          <div class="page-copy">
+            <p>
+              {insights.length
+                ? 'Explore published analysis with clear authorship and publication dates.'
+                : 'There are no published articles yet. Future insights will explore growth marketing and sales development for technology, software and education businesses.'}
+            </p>
+            <p>
+              In the meantime, the service and industry pages explain our
+              current approach to demand generation, qualification and
+              follow-up.
+            </p>
+          </div>
+        </div>
+        {insights.length > 0 && (
+          <ul class="directory-list">
+            {insights.map((entry) => (
+              <li>
+                <h3>
+                  <a class="text-link" href={`/insights/${entry.data.slug}/`}>
+                    {entry.data.title}
+                  </a>
+                </h3>
+                <div>
+                  <p>{entry.data.description}</p>
+                  <p>
+                    {entry.data.author.name} ·{' '}
+                    <time datetime={entry.data.publishedAt}>
+                      {entry.data.publishedAt}
+                    </time>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div class="library-topics">
+          <h2>Editorial focus</h2>
+          <dl>
+            {topics.map((topic) => (
+              <div>
+                <dt>{topic.name}</dt>
+                <dd>{topic.copy}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">PUBLICATION STATUS</p>
+            <h2 id="library-status">
+              {cases.length
+                ? 'Verified work.'
+                : 'No verified case studies are published yet.'}
+            </h2>
+          </div>
+          <div class="page-copy">
+            <p>
+              {cases.length
+                ? 'Each published case study has passed evidence and permission review.'
+                : 'We are keeping the library empty until results can be supported and the client has approved publication. Illustrative process diagrams elsewhere on the site are not case-study evidence.'}
+            </p>
+            <p>
+              A future case study should show the decisions, the work and the
+              limits of what the available data can establish.
+            </p>
+          </div>
+        </div>
+        {cases.length > 0 && (
+          <ul class="directory-list">
+            {cases.map((entry) => (
+              <li>
+                <h3>
+                  <a
+                    class="text-link"
+                    href={`/case-studies/${entry.data.slug}/`}
+                  >
+                    {entry.data.title}
+                  </a>
+                </h3>
+                <p>{entry.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div class="library-topics">
+          <h2>What we will document</h2>
+          <dl>
+            {standards.map((standard) => (
+              <div>
+                <dt>{standard.name}</dt>
+                <dd>{standard.copy}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </>
+    )}
+    <RelatedLinks
+      links={[
+        { label: 'How We Work', href: '/how-we-work/' },
+        {
+          label: 'B2B Lead Generation',
+          href: '/services/b2b-lead-generation/',
+        },
+        { label: 'Education', href: '/industries/education/' },
+      ]}
+    />
+  </Container>
+</section>

@@ -1,0 +1,64 @@
+---
+import Container from '../ui/Container.astro';
+import LinkButton from '../ui/LinkButton.astro';
+import Icon from '../ui/Icon.astro';
+import ServiceHub from './ServiceHub.astro';
+import { homeCopy as copy } from '../../data/home.ts';
+import { pipelineStages } from '../../data/pipeline.ts';
+---
+
+<section class="home-hero" data-theme="dark" aria-labelledby="hero-title">
+  <Container>
+    <div class="hero-topline">
+      <span class="eyebrow">{copy.hero.eyebrow}</span>
+      <span class="hero-market">
+        NEPAL-FIRST <span aria-hidden="true">↗</span>
+      </span>
+    </div>
+    <div class="hero-composition">
+      <div class="hero-copy">
+        <h1 id="hero-title">
+          Turn marketing into <span>qualified pipeline.</span>
+        </h1>
+        <p class="hero-description">
+          Growth marketing and sales development for technology, software and
+          education businesses in Nepal.
+        </p>
+        <LinkButton href="/book-consultation/" class="hub-mobile-consultation">
+          {copy.hero.primary}
+          <Icon />
+        </LinkButton>
+      </div>
+      <ServiceHub />
+      <div class="home-actions">
+        <LinkButton href="/book-consultation/" class="hub-desktop-consultation">
+          {copy.hero.primary}
+          <Icon />
+        </LinkButton>
+        <a class="hero-secondary" href="/how-we-work/#growth-system">
+          {copy.hero.secondary}
+          <Icon name="arrow-up-right" />
+        </a>
+      </div>
+      <figure class="hero-pipeline" id="commercial-journey">
+        <figcaption id="growth-system">
+          MARKETING → SALES DEVELOPMENT → MEASUREMENT
+        </figcaption>
+        <ol class="hero-nodes" aria-label="Illustrative growth pipeline">
+          {pipelineStages.map((stage, i) => (
+            <li
+              id={`pipeline-${stage.slug}`}
+              data-milestone={i === 2 ? 'qualification' : undefined}
+            >
+              <a href={`/how-we-work/#pipeline-${stage.slug}`}>
+                <span class="hero-node-dot" aria-hidden="true"></span>
+                <span>{stage.name}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <p class="diagram-caption">Illustrative process · not client results</p>
+      </figure>
+    </div>
+  </Container>
+</section>

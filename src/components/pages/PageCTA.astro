@@ -1,0 +1,33 @@
+---
+import Container from '../ui/Container.astro';
+import LinkButton from '../ui/LinkButton.astro';
+interface Props {
+  title?: string;
+  copy?: string;
+}
+const {
+  title = 'Start with the growth bottleneck.',
+  copy = 'Explore what a focused conversation about your customers, acquisition process and next commercial objective should cover.',
+} = Astro.props;
+---
+
+<section
+  class="page-band page-cta"
+  data-theme="dark"
+  aria-labelledby="page-cta-title"
+>
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">THE NEXT CONVERSATION</p>
+        <h2 id="page-cta-title">{title}</h2>
+      </div>
+      <div class="page-copy">
+        <p>{copy}</p>
+        <LinkButton href="/book-consultation/">
+          Book a Growth Consultation
+        </LinkButton>
+      </div>
+    </div>
+  </Container>
+</section>

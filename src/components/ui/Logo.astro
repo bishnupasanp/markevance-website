@@ -1,0 +1,188 @@
+---
+import { siteConfig } from '../../data/site.ts';
+import BrandArtwork from './BrandArtwork.astro';
+import {
+  logoAssets,
+  type LogoAssets,
+  type LogoTheme,
+  type LogoVariant,
+} from '../../data/logo.ts';
+
+interface Props {
+  theme?: LogoTheme;
+  variant?: LogoVariant;
+  compactOnMobile?: boolean;
+  responsiveWordmark?: boolean;
+  assets?: LogoAssets;
+  class?: string;
+}
+
+const {
+  theme = 'dark',
+  variant = 'lockup',
+  compactOnMobile = true,
+  responsiveWordmark = false,
+  assets = logoAssets,
+  class: className,
+} = Astro.props;
+const variants = assets[theme];
+const primaryAsset =
+  variants?.[variant] ??
+  (variant === 'lockup' ? variants?.wordmark : undefined);
+const mobileAsset =
+  compactOnMobile && variant !== 'mark' ? variants?.mark : undefined;
+const isMark = variant === 'mark' && Boolean(primaryAsset);
+const inlineVariant = variant === 'mark' ? undefined : variant;
+const showTabletWordmark =
+  responsiveWordmark && variant === 'lockup' && Boolean(variants?.wordmark);
+---
+
+<a
+  href="/"
+  aria-label={`${siteConfig.name} home`}
+  class:list={[
+    'logo',
+    className,
+    {
+      'logo--mark': isMark,
+      'logo--mobile-mark': Boolean(mobileAsset),
+      'logo--responsive-wordmark': showTabletWordmark,
+    },
+  ]}
+  data-logo-theme={theme}
+  data-logo-variant={variant}
+>
+  <span class="logo-frame" aria-hidden="true">
+    {primaryAsset && assets === logoAssets && inlineVariant ? (
+      <span class="logo-primary logo-supplied">
+        <span class="logo-lockup">
+          <BrandArtwork theme={theme} variant={inlineVariant} />
+        </span>
+        {showTabletWordmark && (
+          <span class="logo-tablet-wordmark">
+            <BrandArtwork theme={theme} variant="wordmark" />
+          </span>
+        )}
+      </span>
+    ) : primaryAsset ? (
+      <img
+        class="logo-primary"
+        src={primaryAsset.src}
+        width={primaryAsset.width}
+        height={primaryAsset.height}
+        alt=""
+        decoding="async"
+      />
+    ) : (
+      <span class="logo-primary logo-fallback">{siteConfig.wordmark}</span>
+    )}
+    {mobileAsset && (
+      <img
+        class="logo-mobile"
+        src={mobileAsset.src}
+        width={mobileAsset.width}
+        height={mobileAsset.height}
+        alt=""
+        decoding="async"
+      />
+    )}
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    width: var(--logo-mobile-width);
+    max-width: 100%;
+    min-width: 0;
+    min-height: var(--touch-target);
+    height: var(--logo-height);
+    text-decoration: none;
+    color: var(--color-text-light);
+  }
+  .logo[data-logo-theme='light'] {
+    color: var(--color-text-dark);
+  }
+  .logo-frame {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: var(--logo-aspect-ratio);
+    max-height: var(--logo-height);
+  }
+  .logo img,
+  .logo :global(.brand-artwork) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+  }
+  .logo-fallback {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: clamp(0.875rem, 4.2vw, 1.125rem);
+    white-space: nowrap;
+  }
+  .logo-supplied,
+  .logo-lockup,
+  .logo-tablet-wordmark {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .logo-tablet-wordmark {
+    display: none;
+  }
+  .logo .logo-mobile {
+    display: none;
+  }
+  .logo--mark,
+  .logo--mobile-mark {
+    width: var(--logo-height);
+  }
+  .logo--mark .logo-frame,
+  .logo--mobile-mark .logo-frame {
+    aspect-ratio: 1;
+  }
+  .logo--mobile-mark .logo-primary {
+    display: none;
+  }
+  .logo--mobile-mark .logo-mobile {
+    display: block;
+  }
+
+  @media (min-width: 48rem) {
+    .logo {
+      width: var(--logo-width);
+    }
+    .logo-frame,
+    .logo--mobile-mark .logo-frame {
+      aspect-ratio: var(--logo-aspect-ratio);
+    }
+    .logo-fallback {
+      font-size: 1.25rem;
+    }
+    .logo--mobile-mark .logo-primary {
+      display: block;
+    }
+    .logo--mobile-mark .logo-mobile {
+      display: none;
+    }
+    .logo--mark {
+      width: var(--logo-height);
+    }
+    .logo--mark .logo-frame {
+      aspect-ratio: 1;
+    }
+  }
+  @media (min-width: 48rem) and (max-width: 79.999rem) {
+    .logo--responsive-wordmark .logo-lockup {
+      display: none;
+    }
+    .logo--responsive-wordmark .logo-tablet-wordmark {
+      display: block;
+    }
+  }
+</style>

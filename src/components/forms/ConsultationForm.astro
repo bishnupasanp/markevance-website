@@ -1,0 +1,389 @@
+---
+import ConsultationField from './ConsultationField.astro';
+import {
+  consultationEndpoint,
+  resolveFormspreeEndpoint,
+} from '../../lib/formspree.ts';
+const endpoint = resolveFormspreeEndpoint(
+  import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? consultationEndpoint,
+);
+---
+
+<section
+  class="consultation-intake"
+  id="consultation-form"
+  aria-labelledby="consultation-intake-title"
+>
+  <div class="intake-heading">
+    <p class="eyebrow">A CLEARER START</p>
+    <h2 id="consultation-intake-title">Tell us where growth gets stuck.</h2>
+    <p>
+      A little context helps us start with the right questions. Fields marked
+      optional can wait until we talk.
+    </p>
+  </div>
+  {endpoint ? (
+    <form
+      action={endpoint}
+      method="POST"
+      accept-charset="UTF-8"
+      data-consultation-form
+      aria-labelledby="consultation-intake-title"
+    >
+      <input
+        type="hidden"
+        name="_subject"
+        value="Markevance — Growth Consultation"
+      />
+      <input type="hidden" name="sourcePath" value="/book-consultation/" />
+      <div class="intake-errors" data-form-errors role="alert" hidden>
+        Please check the highlighted fields. Your details have not been sent.
+      </div>
+      <fieldset class="intake-group">
+        <legend>
+          <span class="intake-number" aria-hidden="true">
+            01
+          </span>{' '}
+          Your details
+        </legend>
+        <div class="intake-fields">
+          <ConsultationField
+            name="name"
+            label="Your name"
+            required
+            maxLength={120}
+            autocomplete="name"
+          />
+          <ConsultationField
+            name="email"
+            label="Work email"
+            type="email"
+            required
+            maxLength={254}
+            autocomplete="email"
+          />
+        </div>
+      </fieldset>
+      <fieldset class="intake-group">
+        <legend>
+          <span class="intake-number" aria-hidden="true">
+            02
+          </span>{' '}
+          Your business
+        </legend>
+        <div class="intake-fields">
+          <ConsultationField
+            name="company"
+            label="Company or institution"
+            required
+            maxLength={160}
+            autocomplete="organization"
+          />
+          <ConsultationField
+            name="industry"
+            label="Industry"
+            type="select"
+            required
+            options={[
+              ['technology-software', 'Technology & software'],
+              ['education', 'Education'],
+              ['healthcare', 'Healthcare'],
+              ['real-estate', 'Real estate'],
+              ['ecommerce', 'E-commerce'],
+              ['other', 'Other'],
+            ]}
+          />
+        </div>
+        <details class="intake-optional">
+          <summary>
+            Add more business context <span>Optional</span>
+          </summary>
+          <div class="intake-fields">
+            <ConsultationField
+              name="website"
+              label="Website"
+              type="url"
+              maxLength={2048}
+              autocomplete="url"
+              hint="Include https:// or http://"
+            />
+            <ConsultationField
+              name="phone"
+              label="Phone number"
+              type="tel"
+              maxLength={40}
+              autocomplete="tel"
+            />
+            <ConsultationField
+              name="employeeCount"
+              label="Team size"
+              type="select"
+              options={[
+                ['1-4', '1–4 people'],
+                ['5-10', '5–10 people'],
+                ['11-50', '11–50 people'],
+                ['51-200', '51–200 people'],
+                ['201-plus', 'More than 200 people'],
+              ]}
+            />
+            <ConsultationField
+              name="acquisition"
+              label="Main source of customers"
+              type="select"
+              options={[
+                ['referrals', 'Referrals'],
+                ['search', 'Organic search'],
+                ['paid-ads', 'Paid advertising'],
+                ['outbound', 'Outbound outreach'],
+                ['social-media', 'Social media'],
+                ['partnerships', 'Partnerships'],
+                ['other', 'Other'],
+              ]}
+            />
+          </div>
+        </details>
+      </fieldset>
+      <fieldset class="intake-group">
+        <legend>
+          <span class="intake-number" aria-hidden="true">
+            03
+          </span>{' '}
+          Your next stage
+        </legend>
+        <div class="intake-fields">
+          <ConsultationField
+            name="challenge"
+            label="What needs the most attention?"
+            type="select"
+            required
+            wide
+            options={[
+              ['qualified-leads', 'Generating more qualified enquiries'],
+              ['sales', 'Turning enquiries into customers'],
+              ['search-visibility', 'Being found in search'],
+              ['paid-acquisition', 'Improving paid acquisition'],
+              ['outbound-prospecting', 'Reaching the right accounts'],
+              ['sales-support', 'Following up and developing opportunities'],
+              ['crm-automation', 'Connecting CRM and follow-up'],
+              ['other', 'Something else / help me diagnose it'],
+            ]}
+          />
+          <ConsultationField
+            name="objective"
+            label="What would you like to change in the next 3–6 months?"
+            type="textarea"
+            required
+            maxLength={2000}
+            wide
+            hint="Share the outcome you want and any context behind the challenge."
+          />
+        </div>
+      </fieldset>
+      <div class="intake-submit">
+        <p class="intake-privacy">
+          We use these details to respond to your enquiry through Formspree.
+          Read our <a href="/privacy-policy/">Privacy Policy</a>.
+        </p>
+        <button class="button button-primary" type="submit">
+          Send consultation request <span aria-hidden="true">↗</span>
+        </button>
+        <p class="intake-handoff">
+          Continue to verification and confirmation on Formspree. Sending a
+          request does not reserve a meeting.
+        </p>
+        <p
+          class="intake-status"
+          data-form-status
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          hidden
+        ></p>
+      </div>
+    </form>
+  ) : (
+    <p class="intake-status">
+      Online requests are unavailable. Please contact us directly using the
+      email or WhatsApp links.
+    </p>
+  )}
+  <p class="intake-fallback">
+    Prefer a direct conversation?{' '}
+    <a href="mailto:growwith@markevance.com">Email Markevance</a> or{' '}
+    <a href="https://wa.me/9779815515225" target="_blank" rel="noreferrer">
+      message on WhatsApp
+    </a>
+    .
+  </p>
+</section>
+<script>
+  import { initConsultationForms } from './consultation-form.ts';
+  initConsultationForms();
+</script>
+<style>
+  .consultation-intake {
+    min-width: 0;
+  }
+  .intake-heading {
+    padding-bottom: 2rem;
+  }
+  .intake-heading .eyebrow {
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+  .intake-heading h2 {
+    font-size: var(--text-h3);
+    max-width: 22ch;
+    margin-bottom: 1rem;
+  }
+  .intake-heading > p:last-child {
+    color: var(--color-text-secondary);
+    max-width: 55ch;
+  }
+  .intake-group {
+    border: 0;
+    border-top: 1px solid var(--border-light);
+    padding: 0 0 2rem;
+    margin: 0;
+    min-width: 0;
+  }
+  .intake-group legend {
+    float: left;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    font-weight: 600;
+    font-size: 1.125rem;
+    padding: 1.5rem 0;
+  }
+  .intake-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+  .intake-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    clear: both;
+  }
+  .intake-optional {
+    clear: both;
+    margin-top: 1.5rem;
+  }
+  .intake-optional summary {
+    padding: 0.75rem 0;
+    min-height: var(--touch-target);
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .intake-optional summary span {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin-left: 0.5rem;
+  }
+  .intake-optional[open] .intake-fields {
+    margin-top: 1rem;
+  }
+  .intake-submit {
+    border-top: 1px solid var(--border-light);
+    padding-top: 1.75rem;
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+  }
+  .intake-privacy,
+  .intake-handoff,
+  .intake-fallback {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+  .intake-handoff {
+    max-width: 52ch;
+  }
+  .intake-fallback {
+    border-top: 1px solid var(--border-light);
+    padding-top: 1.5rem;
+    margin-top: 1.75rem;
+  }
+  .consultation-intake a {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .intake-status,
+  .intake-errors {
+    padding: 1rem;
+    border: 1px solid var(--color-text-secondary);
+    border-radius: var(--radius-control);
+    font-size: var(--text-small);
+    color: var(--color-text-dark);
+  }
+  .intake-errors {
+    margin-bottom: 1.5rem;
+  }
+  .intake-submit button:disabled {
+    opacity: 0.75;
+    cursor: progress;
+  }
+  .consultation-intake :global(.intake-field) {
+    min-width: 0;
+  }
+  .consultation-intake :global(.intake-field label) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.625rem;
+  }
+  .consultation-intake :global(.field-optional),
+  .consultation-intake :global(.field-hint) {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    font-weight: 400;
+  }
+  .consultation-intake :global(.field-hint) {
+    margin-bottom: 0.625rem;
+  }
+  .consultation-intake :global(input:not([type='hidden'])),
+  .consultation-intake :global(select),
+  .consultation-intake :global(textarea) {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 3.25rem;
+    padding: 0.75rem;
+    border: 1px solid var(--color-text-muted);
+    border-radius: var(--radius-input);
+    background: var(--color-background-light);
+    color: var(--color-text-dark);
+    font-size: 1rem;
+  }
+  .consultation-intake :global(textarea) {
+    resize: vertical;
+  }
+  .consultation-intake :global([aria-invalid='true']) {
+    border: 2px solid var(--color-text-dark);
+  }
+  .consultation-intake :global(.field-error) {
+    font-size: var(--text-small);
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+  .consultation-intake :global(.field-error:empty) {
+    display: none;
+  }
+  @media (min-width: 40rem) {
+    .intake-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .consultation-intake :global(.intake-field--wide) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import Container from '../ui/Container.astro';
+import { engagementModels } from '../../data/home.ts';
+---
+
+<section
+  class="home-section engagement-section"
+  id="growth-solutions"
+  data-theme="dark"
+  aria-labelledby="engagement-title"
+>
+  <Container>
+    <div class="engagement-heading">
+      <p class="eyebrow">ENGAGEMENT MODELS</p>
+      <h2 id="engagement-title">
+        One growth system.
+        <br />
+        Three ways to engage.
+      </h2>
+    </div>
+    <ol class="engagement-models">
+      {engagementModels.map((model, i) => (
+        <li>
+          <div class="engagement-name">
+            <span class="list-index" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <h3>{model.name}</h3>
+          </div>
+          <div>
+            <p>{model.copy}</p>
+            <ul class="scope-list">
+              {model.scope.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>

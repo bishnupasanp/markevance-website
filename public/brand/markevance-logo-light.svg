@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .wordmark-light {
+        font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 88px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        fill: #080E18;
+      }
+      .tagline-light {
+        font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        fill: #1D63ED;
+      }
+    </style>
+  </defs>
+  <!-- Background: Crisp Alabaster -->
+  <rect width="100%" height="100%" fill="#F8F9FA" />
+
+  <!-- Monogram in Sovereign Navy or Cobalt -->
+  <g transform="translate(40, 32) scale(1.0)">
+    <polygon points="0,0 0,43 125,159 250,43 250,0 125,116" fill="#080E18" />
+    <polygon points="0,75 0,235 33,235 33,149 125,235 217,149 217,235 250,235 250,75 125,191" fill="#080E18" />
+  </g>
+
+  <!-- Wordmark & Sub-descriptor -->
+  <text x="360" y="150" class="wordmark-light">MARKEVANCE</text>
+  <text x="365" y="225" class="tagline-light">GROWTH MARKETING &amp; SALES DEVELOPMENT</text>
+</svg>

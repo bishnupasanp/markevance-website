@@ -1,0 +1,25 @@
+---
+import type { ProcessStep } from '../../types/public-pages.ts';
+interface Props {
+  steps: readonly ProcessStep[];
+  caption: string;
+  qualificationIndex?: number;
+}
+const { steps, caption, qualificationIndex } = Astro.props;
+---
+
+<figure class="process-flow">
+  <figcaption>{caption}</figcaption>
+  <ol style={`--flow-count: ${steps.length}`}>
+    {steps.map((step, index) => (
+      <li data-handoff={index === qualificationIndex ? 'true' : undefined}>
+        <span class="flow-index" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span class="flow-node" aria-hidden="true"></span>
+        <h3>{step.title}</h3>
+        <p>{step.copy}</p>
+      </li>
+    ))}
+  </ol>
+</figure>

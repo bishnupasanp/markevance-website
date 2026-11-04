@@ -1,0 +1,22 @@
+---
+interface Props {
+  id?: string;
+  labelledby?: string;
+  theme?: 'white' | 'light' | 'dark';
+  class?: string;
+}
+const { id, labelledby, theme = 'white', class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  data-theme={theme}
+  class:list={[
+    'section',
+    { 'section-light': theme === 'light', 'section-dark': theme === 'dark' },
+    className,
+  ]}
+>
+  <slot />
+</section>

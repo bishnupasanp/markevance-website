@@ -1,0 +1,108 @@
+---
+import Container from '../ui/Container.astro';
+import ForwardLine from './ForwardLine.astro';
+import { pipelineStages } from '../../data/pipeline.ts';
+---
+
+<section
+  class="pipeline-section home-section"
+  id="commercial-journey"
+  data-theme="dark"
+  aria-labelledby="pipeline-title"
+  data-pipeline-story
+>
+  <Container>
+    <div class="pipeline-heading">
+      <h2 id="pipeline-title">Follow the commercial journey.</h2>
+      <p>
+        Explore how each stage moves forward, who owns the next step and what
+        can be measured.
+      </p>
+    </div>
+    <div class="story-runway" data-story-runway>
+      <div class="story-scene" data-story-scene>
+        <figure class="commercial-pipeline">
+          <figcaption class="diagram-caption">
+            Illustrative growth pipeline · not client results
+          </figcaption>
+          <div class="pipeline-track">
+            <ForwardLine />
+            <ol data-pipeline-tabs aria-label="Commercial pipeline stages">
+              {pipelineStages.map((stage, i) => (
+                <li
+                  data-pipeline-node
+                  data-milestone={i === 2 ? 'qualification' : undefined}
+                >
+                  <a
+                    class="pipeline-stage-link"
+                    id={`pipeline-tab-${stage.slug}`}
+                    href={`#pipeline-${stage.slug}`}
+                    data-pipeline-tab
+                  >
+                    <span class="pipeline-number" aria-hidden="true">
+                      0{i + 1}
+                    </span>
+                    <span class="pipeline-dot" aria-hidden="true"></span>
+                    <span class="pipeline-stage-name">{stage.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </figure>
+        <p class="pipeline-instruction">
+          Explore a stage to see the work, ownership and measure.
+        </p>
+        <div class="pipeline-explanations" data-pipeline-panels>
+          {pipelineStages.map((stage, i) => (
+            <section
+              class="pipeline-explanation"
+              id={`pipeline-${stage.slug}`}
+              aria-labelledby={`pipeline-heading-${stage.slug}`}
+              data-pipeline-panel
+            >
+              <div class="pipeline-explanation-heading">
+                <span class="pipeline-detail-index" aria-hidden="true">
+                  0{i + 1}
+                </span>
+                <div>
+                  <p class="eyebrow">{stage.name}</p>
+                  <h3 id={`pipeline-heading-${stage.slug}`}>
+                    {stage.headline}
+                  </h3>
+                </div>
+              </div>
+              <div class="pipeline-explanation-copy">
+                <p>{stage.description}</p>
+                <dl>
+                  <div>
+                    <dt>Ownership</dt>
+                    <dd>{stage.responsibility}</dd>
+                  </div>
+                  <div>
+                    <dt>Measure</dt>
+                    <dd>{stage.measure}</dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
+          ))}
+        </div>
+        <div class="measurement-definitions">
+          <span>Qualified leads</span>
+          <span>Meetings booked</span>
+          <span>Opportunities</span>
+          <span>Revenue attribution where available</span>
+        </div>
+        <div class="story-controls">
+          <p>
+            Scroll to explore <span data-story-count>01 / 07</span>
+          </p>
+          <a href="/services/">
+            Explore growth solutions <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

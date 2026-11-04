@@ -1,0 +1,99 @@
+---
+import Container from '../ui/Container.astro';
+import ProcessFlow from './ProcessFlow.astro';
+import RelatedLinks from './RelatedLinks.astro';
+import PageCTA from './PageCTA.astro';
+import type { IndustryDefinition } from '../../types/public-pages.ts';
+interface Props {
+  industry: IndustryDefinition;
+}
+const { industry } = Astro.props;
+---
+
+<section class="page-band page-band-light" aria-labelledby="industry-problem">
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">THE BUYING JOURNEY</p>
+        <h2 id="industry-problem">{industry.problem.title}</h2>
+      </div>
+      <div class="page-copy">
+        {industry.problem.paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    </div>
+    <div class="audience-row">
+      <h3>Where this fits</h3>
+      <ul>
+        {industry.audience.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </Container>
+</section>
+<section class="page-band" data-theme="dark" aria-labelledby="industry-journey">
+  <Container>
+    <p class="eyebrow">FROM INTEREST TO A COMMERCIAL NEXT STEP</p>
+    <h2 id="industry-journey">
+      {industry.name === 'Education'
+        ? 'An enquiry-to-admission journey.'
+        : 'An account-to-opportunity journey.'}
+    </h2>
+    <ProcessFlow
+      steps={industry.journey}
+      caption="Illustrative journey. Stage movement depends on buyer decisions and client follow-through."
+      qualificationIndex={industry.name === 'Education' ? 2 : 1}
+    />
+    <dl class="ownership-split">
+      <div>
+        <dt>Markevance responsibility</dt>
+        <dd>{industry.agency}</dd>
+      </div>
+      <div>
+        <dt>Client responsibility</dt>
+        <dd>{industry.client}</dd>
+      </div>
+    </dl>
+  </Container>
+</section>
+<section class="page-band page-band-light" aria-labelledby="industry-work">
+  <Container>
+    <div class="page-split">
+      <div>
+        <p class="eyebrow">THE WORK BEHIND THE JOURNEY</p>
+        <h2 id="industry-work">Connect acquisition and follow-up.</h2>
+      </div>
+      <ol class="work-sequence">
+        {industry.work.map((item, index) => (
+          <li>
+            <span class="list-index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="system-connection">
+      <h3>Measures to review</h3>
+      <div>
+        <p class="section-context">
+          These are reporting definitions, not claimed client results. We report
+          outcomes only where records support them.
+        </p>
+        <ul class="measure-list">
+          {industry.measures.map((measure) => (
+            <li>{measure}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <RelatedLinks links={industry.related} />
+  </Container>
+</section>
+<PageCTA />

@@ -1,0 +1,76 @@
+---
+import Container from '../ui/Container.astro';
+import { getPublishedInsights } from '../../lib/content.ts';
+const insights = await getPublishedInsights();
+const reviewQuestions = [
+  {
+    question: 'Are we reaching the right buyers?',
+    measure: 'Audience fit, acquisition sources and qualified-lead rate.',
+  },
+  {
+    question: 'Is interest moving forward?',
+    measure: 'Follow-up, meetings held and client-confirmed opportunities.',
+  },
+  {
+    question: 'What should change next?',
+    measure: 'The bottleneck, the evidence and the next action to test.',
+  },
+];
+---
+
+<section
+  class="home-section evidence-section"
+  data-theme="dark"
+  aria-labelledby="evidence-title"
+>
+  <Container>
+    <p class="eyebrow">COMMERCIAL ACCOUNTABILITY</p>
+    <div class="editorial-heading">
+      <h2 id="evidence-title">Evidence before scale.</h2>
+      <p>
+        A useful review connects the work with the next business decision. We
+        separate activity, qualified demand and confirmed outcomes, and explain
+        where the records are incomplete.
+      </p>
+    </div>
+    <dl class="review-questions">
+      {reviewQuestions.map((item) => (
+        <div>
+          <dt>{item.question}</dt>
+          <dd>{item.measure}</dd>
+        </div>
+      ))}
+    </dl>
+  </Container>
+</section>
+{insights.length > 0 && (
+  <section
+    class="home-section insights-section"
+    data-theme="dark"
+    aria-labelledby="insights-title"
+  >
+    <Container>
+      <p class="eyebrow">MARKEVANCE INSIGHTS</p>
+      <div class="editorial-heading">
+        <h2 id="insights-title">Ideas for better growth decisions.</h2>
+        <p>
+          Published analysis on demand generation, qualification and sales
+          development.
+        </p>
+      </div>
+      <ul class="published-insights">
+        {insights.slice(0, 3).map((entry) => (
+          <li>
+            <a class="home-text-link" href={`/insights/${entry.data.slug}/`}>
+              {entry.data.title}
+            </a>
+            <p>{entry.data.description}</p>
+          </li>
+        ))}
+      </ul>
+      <a class="home-text-link" href="/insights/">
+        Explore Insights
+      </a>
+    </Container>
+  </section>
+)}

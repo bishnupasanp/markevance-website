@@ -1,0 +1,91 @@
+---
+import LinkButton from '../ui/LinkButton.astro';
+import { mainNavigation } from '../../data/navigation.ts';
+interface Props {
+  mobile?: boolean;
+}
+const { mobile = false } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<nav
+  aria-label="Primary"
+  id={mobile ? 'mobile-primary-navigation' : 'primary-navigation'}
+  class:list={['primary-navigation', { 'primary-navigation--mobile': mobile }]}
+>
+  <ul>
+    {mainNavigation.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          data-active={
+            path === item.href || path.startsWith(item.href)
+              ? 'true'
+              : undefined
+          }
+          aria-current={path === item.href ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <LinkButton href="/book-consultation/">Book a Growth Consultation</LinkButton>
+</nav>
+<style>
+  .primary-navigation {
+    display: none;
+    min-width: 0;
+  }
+  .primary-navigation--mobile {
+    display: block;
+    position: absolute;
+    inset: 100% 0 auto;
+    z-index: 10;
+    padding: 1rem var(--space-gutter) 1.5rem;
+    background: var(--color-background-dark);
+    border-bottom: 1px solid var(--border-dark);
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0;
+    margin: 0 0 1rem;
+    list-style: none;
+  }
+  ul a {
+    display: inline-flex;
+    min-height: var(--touch-target);
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-text-muted-dark);
+    font-size: var(--text-small);
+  }
+  a[data-active='true'],
+  ul a:hover {
+    color: var(--color-link-dark);
+    text-decoration: underline;
+  }
+  @media (min-width: 80rem) {
+    .primary-navigation:not(.primary-navigation--mobile) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.5rem;
+      grid-column: 2;
+      grid-row: 1;
+    }
+    :global(.button) {
+      flex-shrink: 0;
+    }
+    ul {
+      flex-wrap: wrap;
+      margin: 0;
+    }
+    ul a {
+      white-space: nowrap;
+    }
+  }
+</style>

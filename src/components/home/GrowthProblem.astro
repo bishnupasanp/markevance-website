@@ -1,0 +1,76 @@
+---
+import Container from '../ui/Container.astro';
+import { homeCopy as copy } from '../../data/home.ts';
+---
+
+<section
+  class="home-section growth-problem"
+  id="positioning"
+  aria-labelledby="problem-title"
+>
+  <Container>
+    <p class="eyebrow">{copy.problem.eyebrow}</p>
+    <div class="problem-layout">
+      <h2 id="problem-title">
+        <span id="positioning-title" class="problem-product">
+          Great product.
+        </span>
+        <br />
+        <span>Weak pipeline.</span>
+      </h2>
+      <div class="problem-copy">
+        <div class="problem-premise">
+          {copy.positioning.paragraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+        <ul class="broken-system">
+          {copy.problem.paragraphs.slice(2, -1).map((p) => (
+            <li>
+              <span class="broken-node" aria-hidden="true"></span>
+              {p}
+            </li>
+          ))}
+        </ul>
+        <p class="problem-result">{copy.problem.paragraphs.at(-1)}</p>
+      </div>
+    </div>
+    <p class="problem-closing">
+      <span aria-hidden="true">↗</span>
+      {copy.problem.closing}
+    </p>
+  </Container>
+</section>
+<section
+  class="home-section activity-section"
+  data-theme="dark"
+  aria-labelledby="activity-title"
+>
+  <Container>
+    <div class="editorial-heading">
+      <h2 id="activity-title">{copy.gaps.title}</h2>
+      <div class="copy-flow">
+        {copy.gaps.intro.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+    </div>
+    <dl class="gap-list">
+      {copy.gaps.items.map((item, i) => (
+        <div>
+          <dt>
+            <span class="list-index" aria-hidden="true">
+              0{i + 1}
+            </span>
+            {item.title}
+          </dt>
+          <dd>{item.copy}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="section-closing">
+      {copy.gaps.closing}
+      <span aria-hidden="true">↗</span>
+    </p>
+  </Container>
+</section>

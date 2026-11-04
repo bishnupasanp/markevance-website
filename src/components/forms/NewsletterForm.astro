@@ -1,0 +1,215 @@
+---
+import { newsletterCopy } from '../../data/newsletter.ts';
+import type { NewsletterPlacement } from '../../types/newsletter.ts';
+
+interface Props {
+  id: string;
+  placement: NewsletterPlacement;
+  compact?: boolean;
+}
+const { id, placement, compact = false } = Astro.props;
+---
+
+<form
+  class:list={['newsletter-form', { 'newsletter-form--compact': compact }]}
+  method="post"
+  aria-label="Subscribe to Markevance insights"
+  aria-describedby={`${id}-trust ${id}-status`}
+  data-newsletter-form
+  data-newsletter-placement={placement}
+>
+  <fieldset disabled data-newsletter-fields>
+    <legend class="sr-only">Newsletter subscription</legend>
+    <div class="newsletter-fields">
+      <div class="newsletter-field">
+        <label for={`${id}-email`}>
+          Work email <span>(required)</span>
+        </label>
+        <input
+          id={`${id}-email`}
+          name="workEmail"
+          type="email"
+          autocomplete="email"
+          required
+          maxlength="254"
+          aria-describedby={`${id}-email-error`}
+        />
+        <p
+          id={`${id}-email-error`}
+          class="newsletter-error"
+          data-newsletter-error="workEmail"
+          hidden
+        ></p>
+      </div>
+      <div class="newsletter-field">
+        <label for={`${id}-name`}>
+          First name <span>(optional)</span>
+        </label>
+        <input
+          id={`${id}-name`}
+          name="firstName"
+          type="text"
+          autocomplete="given-name"
+          maxlength="80"
+          aria-describedby={`${id}-name-error`}
+        />
+        <p
+          id={`${id}-name-error`}
+          class="newsletter-error"
+          data-newsletter-error="firstName"
+          hidden
+        ></p>
+      </div>
+    </div>
+    <label class="newsletter-consent" for={`${id}-consent`}>
+      <input
+        id={`${id}-consent`}
+        name="consent"
+        type="checkbox"
+        required
+        aria-describedby={`${id}-consent-error`}
+      />
+      <span>{newsletterCopy.consent}</span>
+    </label>
+    <p
+      id={`${id}-consent-error`}
+      class="newsletter-error"
+      data-newsletter-error="consent"
+      hidden
+    ></p>
+    <!-- A real transport changes this to submit only after JS is ready. -->
+    <button
+      class="button button-primary newsletter-submit"
+      type="button"
+      data-newsletter-submit
+    >
+      Subscribe to Insights
+    </button>
+  </fieldset>
+  <p id={`${id}-trust`} class="newsletter-trust">
+    {newsletterCopy.trust}
+  </p>
+  <p
+    id={`${id}-status`}
+    class="newsletter-status"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    data-newsletter-status
+  >
+    {newsletterCopy.unavailable}
+  </p>
+</form>
+
+<style>
+  .newsletter-form {
+    --newsletter-copy: var(--color-text-secondary);
+    --newsletter-text: var(--color-text-dark);
+    --newsletter-background: var(--color-background-light);
+    --newsletter-control-border: var(--color-text-muted);
+    color: var(--newsletter-text);
+    min-width: 0;
+  }
+  :global([data-theme='dark']) .newsletter-form {
+    --newsletter-copy: var(--color-text-muted-dark);
+    --newsletter-text: var(--color-text-light);
+    --newsletter-background: var(--color-surface-dark);
+    --newsletter-control-border: var(--color-text-muted-dark);
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+  .newsletter-fields {
+    display: grid;
+    gap: 1rem;
+  }
+  .newsletter-field {
+    min-width: 0;
+  }
+  .newsletter-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .newsletter-field label span {
+    color: var(--newsletter-copy);
+    font-size: var(--text-small);
+    font-weight: 400;
+  }
+  .newsletter-field input {
+    display: block;
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--newsletter-control-border);
+    border-radius: var(--radius-input);
+    color: var(--newsletter-text);
+    background: var(--newsletter-background);
+    font-size: 1rem;
+  }
+  .newsletter-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-height: var(--touch-target);
+    padding-block: 0.75rem;
+    margin-top: 0.75rem;
+    font-size: var(--text-small);
+    color: var(--newsletter-copy);
+    cursor: pointer;
+  }
+  .newsletter-consent input {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    accent-color: var(--color-link);
+  }
+  .newsletter-submit {
+    margin-top: 0.75rem;
+  }
+  fieldset:disabled .newsletter-submit {
+    cursor: not-allowed;
+  }
+  fieldset:disabled :is(input, .newsletter-consent) {
+    cursor: not-allowed;
+  }
+  fieldset:disabled .newsletter-field input {
+    border-style: dashed;
+  }
+  .newsletter-trust,
+  .newsletter-status,
+  .newsletter-error {
+    font-size: var(--text-small);
+    color: var(--newsletter-copy);
+  }
+  .newsletter-trust {
+    margin-top: 1.25rem;
+    max-width: 60ch;
+  }
+  .newsletter-status {
+    min-height: 3rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--newsletter-control-border);
+  }
+  .newsletter-error {
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+  .newsletter-field input[aria-invalid='true'] {
+    border-width: 2px;
+  }
+  @media (min-width: 40rem) {
+    .newsletter-fields {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+    .newsletter-form--compact .newsletter-fields {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

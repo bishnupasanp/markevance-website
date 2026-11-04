@@ -1,0 +1,99 @@
+---
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import { homeCopy as copy } from '../../data/home.ts';
+---
+
+<section
+  class="home-section technology-section"
+  data-theme="dark"
+  aria-labelledby="technology-title"
+>
+  <Container>
+    <p class="eyebrow">{copy.technology.eyebrow}</p>
+    <div class="industry-layout">
+      <div class="industry-main">
+        <h2 id="technology-title">{copy.technology.title}</h2>
+        <p>{copy.technology.intro}</p>
+        <p>{copy.technology.copy}</p>
+        <a class="home-text-link" href="/industries/technology-software/">
+          {copy.technology.cta}
+          <Icon name="arrow-up-right" />
+        </a>
+      </div>
+      <div class="technology-field">
+        <p>{copy.technology.listIntro}</p>
+        <ul class="technology-types">
+          {copy.technology.types.map((type, i) => (
+            <li>
+              <span class="list-index" aria-hidden="true">
+                0{i + 1}
+              </span>
+              {type}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="technology-bottleneck">
+      <p>{copy.technology.problemIntro}</p>
+      <ul>
+        {copy.technology.problems.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+      <p>{copy.technology.closing}</p>
+    </div>
+  </Container>
+</section>
+<section
+  class="home-section education-section"
+  aria-labelledby="education-title"
+>
+  <Container>
+    <p class="eyebrow">{copy.education.eyebrow}</p>
+    <div class="industry-layout">
+      <div class="industry-main">
+        <h2 id="education-title">{copy.education.title}</h2>
+        {copy.education.intro.map((p) => (
+          <p>{p}</p>
+        ))}
+        <a class="home-text-link" href="/industries/education/">
+          {copy.education.cta}
+          <Icon name="arrow-up-right" />
+        </a>
+      </div>
+      <div class="education-sequence">
+        <ol>
+          {copy.education.stages.map((stage, i) => (
+            <li>
+              <span aria-hidden="true">0{i + 1}</span>
+              <span>{stage}</span>
+              <Icon />
+            </li>
+          ))}
+        </ol>
+        <p class="diagram-caption">Illustrative enquiry-to-admission journey</p>
+      </div>
+    </div>
+    <ul class="education-types">
+      {copy.education.types.map((type) => (
+        <li>{type}</li>
+      ))}
+    </ul>
+  </Container>
+</section>
+<section class="secondary-section" aria-labelledby="secondary-title">
+  <Container>
+    <h2 id="secondary-title">Selective work in other industries.</h2>
+    <p>{copy.secondary.intro}</p>
+    <dl class="secondary-industries">
+      {copy.secondary.items.map((item) => (
+        <div>
+          <dt>{item.title}</dt>
+          <dd>{item.copy}</dd>
+        </div>
+      ))}
+    </dl>
+  </Container>
+</section>

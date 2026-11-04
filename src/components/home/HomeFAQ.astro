@@ -1,0 +1,25 @@
+---
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import { homeCopy } from '../../data/home.ts';
+---
+
+<section class="home-section faq-section" aria-labelledby="faq-title">
+  <Container class="faq-layout">
+    <div>
+      <p class="eyebrow">QUESTIONS & ANSWERS</p>
+      <h2 id="faq-title">About Markevance.</h2>
+    </div>
+    <div class="faq-list">
+      {homeCopy.faq.map((item) => (
+        <details>
+          <summary>
+            {item.question}
+            <Icon name="plus" />
+          </summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </Container>
+</section>

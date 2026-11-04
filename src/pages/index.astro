@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import HomeOverview from '../components/home/HomeOverview.astro';
+import HomeCTA from '../components/home/HomeCTA.astro';
+import { siteConfig } from '../data/site.ts';
+import { getRoute } from '../data/routes.ts';
+import '../styles/home.css';
+import '../styles/home-overview.css';
+---
+
+<BaseLayout
+  metadata={{
+    title: siteConfig.title,
+    description: siteConfig.description,
+    path: '/',
+    noindex: !getRoute('/').indexable,
+  }}
+>
+  <div class="homepage homepage-overview" data-homepage>
+    <HomeHero />
+    <HomeOverview />
+    <HomeCTA />
+  </div>
+</BaseLayout>
+
+<script>
+  import { initializeOverviewMotion } from '../components/motion/overview-motion.ts';
+  initializeOverviewMotion();
+</script>

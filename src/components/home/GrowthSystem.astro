@@ -1,0 +1,88 @@
+---
+import Container from '../ui/Container.astro';
+import ForwardLine from '../motion/ForwardLine.astro';
+import PipelineExperience from '../motion/PipelineExperience.astro';
+import GrowthFlow from '../motion/GrowthFlow.astro';
+import { homeCopy as copy } from '../../data/home.ts';
+---
+
+<section
+  class="home-section system-section"
+  id="growth-system"
+  data-theme="dark"
+  aria-labelledby="system-title"
+  data-growth-story
+>
+  <Container>
+    <p class="eyebrow">{copy.system.eyebrow}</p>
+    <div class="system-intro">
+      <h2 id="system-title">{copy.system.title}</h2>
+      <p>{copy.system.intro}</p>
+    </div>
+    <div class="story-runway" data-story-runway>
+      <div class="story-scene" data-story-scene>
+        <div class="system-layout">
+          <nav class="system-map" aria-label="Growth system stages">
+            <span class="system-map-caption">
+              Marketing → Sales Development
+            </span>
+            <div class="system-map-line">
+              <ForwardLine vertical />
+              <ol>
+                {copy.system.stages.map((stage, i) => (
+                  <li
+                    data-story-node
+                    data-milestone={i === 2 ? 'qualification' : undefined}
+                  >
+                    <a href={`#growth-stage-${i + 1}`}>
+                      <span class="system-node" aria-hidden="true">
+                        {stage.number}
+                      </span>
+                      <span>{stage.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <p class="diagram-caption">Each stage supports the next.</p>
+            <GrowthFlow />
+          </nav>
+          <ol class="system-stages">
+            {copy.system.stages.map((stage, i) => (
+              <li
+                id={`growth-stage-${i + 1}`}
+                class="system-stage"
+                data-story-stage
+                data-milestone={i === 2 ? 'qualification' : undefined}
+              >
+                <p class="stage-label">
+                  <span>{stage.number}</span>
+                  {stage.name}
+                </p>
+                <h3>{stage.headline}</h3>
+                <p>{stage.copy}</p>
+                <details class="stage-capabilities">
+                  <summary>Capabilities at this stage</summary>
+                  <ul class="capability-tags">
+                    {stage.capabilities.map((label) => (
+                      <li>{label}</li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="story-controls">
+          <p>
+            Scroll to explore <span data-story-count>01 / 05</span>
+          </p>
+          <a href="#commercial-journey">
+            Continue to the commercial journey <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+<PipelineExperience />

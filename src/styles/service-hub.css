@@ -1,0 +1,318 @@
+/* Owner-selected hub composition: real capabilities surrounding the growth system. */
+.growth-hub {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+}
+.growth-hub-stage {
+  position: relative;
+  isolation: isolate;
+  height: clamp(400px, calc(100svh - 340px), 500px);
+}
+.growth-hub-connections {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 0.8;
+  pointer-events: none;
+  z-index: -1;
+}
+.growth-hub-connections .hub-spokes {
+  stroke: var(--color-text-muted-dark);
+  stroke-opacity: 0.35;
+  stroke-dasharray: 3 9;
+}
+.growth-hub-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 216px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent-prestige);
+  background: var(--color-background-dark);
+  outline: 1px solid var(--color-border);
+  outline-offset: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+.growth-hub-center .hub-brand-mark {
+  width: 56px;
+  height: auto;
+}
+.growth-hub-center strong {
+  font-size: 1.375rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.growth-hub-center > span:last-child {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text-muted-dark);
+}
+.hub-satellite {
+  position: absolute;
+  left: var(--hub-x);
+  top: var(--hub-y);
+  width: 156px;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  text-decoration: none;
+  outline-offset: 7px;
+}
+.hub-satellite-surface {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: inherit;
+  background: var(--color-surface-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 200ms ease;
+}
+.hub-satellite strong {
+  max-width: 11ch;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text-light);
+}
+.hub-service-note {
+  font: 400 0.5rem/1.5 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted-dark);
+}
+.hub-satellite .hub-service-diagram {
+  width: 34px;
+  height: 34px;
+  color: var(--color-link-dark);
+}
+.hub-satellite .hub-satellite-surface > svg:last-child {
+  width: 14px;
+  height: 14px;
+  color: var(--color-link-dark);
+}
+.hub-satellite:is(:hover, :focus-visible) .hub-satellite-surface {
+  border-color: var(--color-link-dark);
+}
+.hub-satellite-1 {
+  --hub-x: 23%;
+  --hub-y: 18%;
+  --hub-delay: -1s;
+}
+.hub-satellite-2 {
+  --hub-x: 77%;
+  --hub-y: 18%;
+  --hub-delay: -3s;
+}
+.hub-satellite-3 {
+  --hub-x: 10%;
+  --hub-y: 50%;
+  --hub-delay: -2s;
+}
+.hub-satellite-4 {
+  --hub-x: 90%;
+  --hub-y: 50%;
+  --hub-delay: -5s;
+}
+.hub-satellite-5 {
+  --hub-x: 23%;
+  --hub-y: 82%;
+  --hub-delay: -4s;
+}
+.hub-satellite-6 {
+  --hub-x: 77%;
+  --hub-y: 82%;
+  --hub-delay: -6s;
+}
+.growth-hub-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  margin-top: 0.5rem;
+  color: var(--color-text-muted-dark);
+  font-size: 0.75rem;
+}
+.hub-motion-toggle {
+  min-height: var(--touch-target);
+  padding: 0.5rem 0;
+  color: var(--color-link-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+.hub-motion-toggle:hover {
+  color: var(--color-text-light);
+}
+.growth-hub[data-hub-ready] .hub-satellite-surface {
+  animation: hub-service-float 7s ease-in-out var(--hub-delay) infinite;
+  animation-play-state: paused;
+}
+.growth-hub[data-hub-running] .hub-satellite-surface {
+  animation-play-state: running;
+}
+.growth-hub .hub-satellite:hover .hub-satellite-surface,
+.growth-hub-links:focus-within .hub-satellite-surface {
+  animation-play-state: paused;
+}
+@keyframes hub-service-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@media (max-width: 55rem) {
+  .hub-satellite {
+    width: 140px;
+  }
+  .hub-satellite-3 {
+    --hub-x: 11%;
+  }
+  .hub-satellite-4 {
+    --hub-x: 89%;
+  }
+  .growth-hub-center {
+    width: 188px;
+    gap: 0.5rem;
+  }
+  .growth-hub-center strong {
+    font-size: 1.125rem;
+  }
+  .hub-satellite .hub-service-diagram {
+    width: 27px;
+    height: 27px;
+  }
+  .hub-satellite-surface {
+    padding: 0.75rem;
+  }
+  .hub-satellite strong {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 40rem) {
+  .growth-hub-stage {
+    height: 420px;
+  }
+  .hub-satellite {
+    width: 112px;
+  }
+  .hub-satellite-1,
+  .hub-satellite-5 {
+    --hub-x: 23%;
+  }
+  .hub-satellite-2,
+  .hub-satellite-6 {
+    --hub-x: 77%;
+  }
+  .hub-satellite-3 {
+    --hub-x: 14%;
+    width: 96px;
+  }
+  .hub-satellite-4 {
+    --hub-x: 86%;
+    width: 96px;
+  }
+  .hub-satellite-surface {
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
+  .hub-satellite strong {
+    font-size: 0.9375rem;
+  }
+  .hub-service-note {
+    display: none;
+  }
+  .hub-satellite .hub-service-diagram {
+    width: 20px;
+    height: 20px;
+  }
+  .hub-satellite .hub-satellite-surface > svg:last-child {
+    width: 12px;
+    height: 12px;
+  }
+  .growth-hub-center {
+    width: 118px;
+    outline-offset: 5px;
+  }
+  .growth-hub-center strong {
+    font-size: 0.875rem;
+    letter-spacing: 0.03em;
+  }
+  .growth-hub-center .hub-center-tagline {
+    display: none;
+  }
+  .growth-hub-center .hub-brand-mark {
+    width: 36px;
+  }
+  @keyframes hub-service-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+}
+@media (max-width: 22rem) {
+  .hub-satellite {
+    width: 98px;
+  }
+  .hub-satellite-3,
+  .hub-satellite-4 {
+    width: 86px;
+  }
+  .hub-satellite-3 {
+    --hub-x: 11%;
+  }
+  .hub-satellite-4 {
+    --hub-x: 89%;
+  }
+  .hub-satellite strong {
+    font-size: 0.8125rem;
+  }
+  .hub-satellite-surface {
+    padding: 0.375rem;
+  }
+  .growth-hub-center {
+    width: 106px;
+    gap: 0.375rem;
+  }
+  .growth-hub-center strong {
+    font-size: 0.75rem;
+  }
+  .growth-hub-center .hub-brand-mark {
+    width: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .growth-hub[data-hub-ready] .hub-satellite-surface {
+    animation: none;
+  }
+  .hub-satellite-surface {
+    transition: none;
+  }
+  .hub-motion-toggle {
+    display: none;
+  }
+}

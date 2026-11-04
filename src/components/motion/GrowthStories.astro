@@ -1,0 +1,13 @@
+---
+import GrowthSystem from '../home/GrowthSystem.astro';
+import '../../styles/home.css';
+import '../../styles/immersive.css';
+---
+
+<div class="homepage growth-stories" id="operating-system" data-growth-stories>
+  <GrowthSystem />
+</div>
+<script>
+  import { initializeHomeMotion } from './home-motion.ts';
+  initializeHomeMotion();
+</script>

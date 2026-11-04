@@ -1,0 +1,249 @@
+/* A short introduction; full explanations and scroll stories live on detail routes. */
+.homepage-overview {
+  --space-section: 4rem;
+}
+.homepage-overview h2 {
+  font-size: clamp(1.875rem, 1.5rem + 1vw, 2.5rem);
+}
+.homepage-overview .hero-composition {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  padding-block: 1rem 0;
+}
+.homepage-overview .hero-copy {
+  text-align: center;
+}
+.homepage-overview .hero-copy h1 {
+  max-width: none;
+  font-size: clamp(1.875rem, 3.2vw, 2.75rem);
+  margin-inline: auto;
+}
+.homepage-overview .hero-copy h1 span {
+  display: inline;
+}
+.homepage-overview .hero-description {
+  max-width: 78ch;
+  margin: 0.75rem auto 0;
+  font-size: 1rem;
+}
+.homepage-overview .hub-mobile-consultation {
+  display: none;
+}
+.homepage-overview .hero-composition > .home-actions {
+  justify-content: center;
+  margin-top: 0;
+}
+.homepage-overview .hero-pipeline {
+  position: relative;
+  padding: 0.75rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--home-rule);
+  border-radius: 0;
+  background: transparent;
+}
+.homepage-overview .hero-pipeline figcaption {
+  font-size: 0.625rem;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+}
+.homepage-overview .hero-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.875rem;
+  margin-block: 0.125rem;
+}
+.homepage-overview .hero-nodes::before,
+.homepage-overview .hero-nodes::after {
+  display: none;
+}
+.homepage.homepage-overview .hero-nodes a {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.75rem;
+  border: 0;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.homepage-overview .hero-node-dot {
+  outline: none;
+}
+.homepage-overview .hero-nodes li + li a::before {
+  content: '→';
+  margin-right: 0.5rem;
+  color: var(--color-text-muted-dark);
+}
+.homepage-overview .hero-pipeline .diagram-caption {
+  font-size: 0.625rem;
+}
+.homepage-overview .overview-heading {
+  display: grid;
+  gap: 1rem;
+  align-items: end;
+}
+.homepage-overview .overview-heading > * {
+  min-width: 0;
+}
+.homepage-overview .overview-heading .eyebrow {
+  margin-bottom: 0.75rem;
+}
+.homepage-overview .overview-services {
+  margin-top: 1.75rem;
+}
+.homepage-overview .overview-services > li {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.25rem 0.75rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--home-rule);
+  align-items: baseline;
+  position: relative;
+}
+.homepage-overview .overview-services > li::before {
+  content: '';
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 1px;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms var(--ease-standard);
+  pointer-events: none;
+}
+.homepage-overview .overview-services > li:is(:hover, :focus-within)::before {
+  transform: scaleX(1);
+}
+.homepage-overview .overview-services > li > * {
+  min-width: 0;
+}
+.homepage-overview .overview-services :is(p, .home-text-link) {
+  grid-column: 2;
+}
+.homepage-overview .overview-services h3 {
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+}
+.homepage-overview .overview-services h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  text-decoration: none;
+}
+.homepage-overview .overview-services h3 a:hover {
+  color: var(--color-link-hover);
+}
+.homepage-overview .overview-services .home-text-link {
+  margin: 0;
+  white-space: nowrap;
+}
+.homepage-overview .overview-models {
+  border-top: 1px solid var(--home-rule);
+  padding-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+  font-size: var(--text-small);
+}
+.homepage-overview .overview-models ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-weight: 500;
+}
+.homepage-overview .overview-models .home-text-link {
+  margin: 0;
+}
+.homepage-overview .overview-industries {
+  border-top: 1px solid var(--home-rule);
+}
+.homepage-overview .overview-industry-pair {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+}
+.homepage-overview .overview-industry-pair article {
+  min-width: 0;
+  border-top: 1px solid var(--home-rule);
+  padding-top: 0.75rem;
+}
+.homepage-overview .overview-industry-pair h3 {
+  font-size: 1.375rem;
+}
+.homepage-overview .overview-industry-pair h3 a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: var(--touch-target);
+  text-decoration: none;
+}
+.homepage-overview .overview-industry-pair h3 a:hover {
+  color: var(--color-link-hover);
+}
+.homepage-overview .overview-approach {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: var(--text-small);
+}
+.homepage-overview .overview-approach .home-text-link {
+  margin: 0;
+}
+.homepage-overview .final-cta h2 {
+  font-size: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+  max-width: 18ch;
+}
+.homepage-overview .final-cta-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+.homepage-overview .overview-insight-links {
+  margin-top: 1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .homepage-overview .overview-services > li::before {
+    transition: none;
+  }
+}
+@media (max-width: 63.999rem) {
+  .homepage-overview .hero-copy .hub-mobile-consultation {
+    display: inline-flex;
+    margin-top: 1rem;
+  }
+  .homepage-overview .hub-desktop-consultation {
+    display: none;
+  }
+}
+@media (max-width: 40rem) {
+  .homepage-overview .hero-market {
+    display: none;
+  }
+}
+@media (min-width: 48rem) {
+  .homepage-overview .overview-industry-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-column);
+  }
+}
+@media (min-width: 64rem) {
+  .homepage-overview .overview-heading {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-column);
+  }
+  .homepage-overview .overview-services > li {
+    grid-template-columns: 1.5rem minmax(0, 3fr) minmax(0, 5fr) auto;
+    gap: 1.5rem;
+  }
+  .homepage-overview .overview-services :is(p, .home-text-link) {
+    grid-column: auto;
+  }
+  .homepage-overview .overview-models {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .homepage-overview .final-cta-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-column);
+    align-items: center;
+  }
+}

@@ -1,0 +1,66 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Heading from '../components/ui/Heading.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import Breadcrumbs from '../components/navigation/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { breadcrumbSchema } from '../lib/structured-data.ts';
+import type { PageMetadata } from '../types/seo.ts';
+import type { BreadcrumbItem } from '../types/site.ts';
+import '../styles/pages.css';
+interface Props extends PageMetadata {
+  breadcrumbs?: readonly BreadcrumbItem[];
+  heading?: string;
+  eyebrow?: string;
+  intro?: string;
+  fullWidth?: boolean;
+}
+const {
+  breadcrumbs = [],
+  heading,
+  eyebrow = 'MARKEVANCE',
+  intro,
+  fullWidth = false,
+  ...metadata
+} = Astro.props;
+---
+
+<BaseLayout metadata={metadata}>
+  <Fragment slot="head">
+    {breadcrumbs.length > 0 && (
+      <JsonLd data={breadcrumbSchema(breadcrumbs, metadata.path)} />
+    )}
+    <slot name="head" />
+  </Fragment>
+  <header class="page-hero" data-theme="dark">
+    <Container>
+      {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
+      <Eyebrow class="page-eyebrow">{eyebrow}</Eyebrow>
+      <div
+        class:list={[
+          'page-hero-layout',
+          { 'page-hero-layout--split': Boolean(intro) },
+        ]}
+      >
+        <Heading level={1} id="page-title" class="page-title">
+          {heading ?? metadata.title}
+        </Heading>
+        <div class="page-hero-lead">
+          {intro && <p class="page-intro">{intro}</p>}
+          <slot name="hero" />
+        </div>
+      </div>
+    </Container>
+  </header>
+  {fullWidth ? (
+    <slot />
+  ) : (
+    <Section theme="light" class="page-reading">
+      <Container>
+        <slot />
+      </Container>
+    </Section>
+  )}
+</BaseLayout>

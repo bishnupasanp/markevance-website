@@ -1,0 +1,39 @@
+---
+import type { BreadcrumbItem } from '../../types/site.ts';
+interface Props {
+  items: readonly BreadcrumbItem[];
+}
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="breadcrumbs mb-6 text-small">
+  <ol class="flex flex-wrap items-center gap-2">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-2">
+        {index > 0 && <span aria-hidden="true">/</span>}
+        {item.href ? (
+          <a
+            class="text-link inline-flex min-h-11 items-center"
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<style>
+  .breadcrumbs {
+    color: var(--color-text-secondary);
+  }
+  :global([data-theme='dark']) .breadcrumbs {
+    color: var(--color-text-muted-dark);
+  }
+  li {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+</style>

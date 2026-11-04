@@ -1,0 +1,79 @@
+@theme {
+  --color-*: initial;
+  --color-brand: #1d63ed;
+  /* Darker Cobalt: Alabaster labels pass AA on hover (6.27:1). */
+  --color-brand-hover: #1854cc;
+  --color-accent-prestige: #c5a880;
+  --color-background-dark: #080e18;
+  --color-surface-dark: #121c2b;
+  --color-background-light: #f8f9fa;
+  --color-text-dark: var(--color-background-dark);
+  --color-text-light: var(--color-background-light);
+  --color-text-muted-dark: #8692a6;
+  /* Steel-derived light-surface copy: 7.17:1 / 5.59:1 on Alabaster. */
+  --color-text-secondary: #485569;
+  --color-text-muted: #596579;
+  --color-border: #263246;
+  --color-border-light: #d8dfe8;
+  --color-link: var(--color-brand);
+  --color-link-hover: var(--color-brand-hover);
+  /* Cobalt itself is for large dark-surface text/strokes; small links need 4.5:1. */
+  --color-link-dark: #80abff;
+  --color-action-text: var(--color-text-light);
+  --color-focus: var(--color-brand);
+  --color-focus-dark: var(--color-link-dark);
+  --font-sans:
+    'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
+  --container-site: 1280px;
+  --container-copy: 65ch;
+  --radius-control: 0.5rem;
+  --radius-input: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-panel: 1rem;
+  --text-small: 0.875rem;
+  --text-body: clamp(1rem, 0.97rem + 0.15vw, 1.125rem);
+  --text-body--line-height: 1.7;
+  --text-body-large: clamp(1.125rem, 1.1rem + 0.15vw, 1.25rem);
+  --text-h3: clamp(1.375rem, 1.1rem + 1vw, 2rem);
+  --text-h2: clamp(1.875rem, 1.3rem + 2vw, 3.25rem);
+  --text-h1: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+  --text-display: clamp(2.625rem, 1.7rem + 4vw, 5.5rem);
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 90rem;
+}
+
+:root {
+  --space-gutter: clamp(1.25rem, 3vw, 2.5rem);
+  --space-section: 4rem;
+  --space-column: clamp(2rem, 4vw, 4rem);
+  --border-dark: var(--color-border);
+  --border-light: var(--color-border-light);
+  --duration-micro: 200ms;
+  --duration-standard: 400ms;
+  --duration-reveal: 700ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --touch-target: 2.75rem;
+  --logo-width: 15rem;
+  --logo-mobile-width: clamp(9rem, 45vw, 12rem);
+  --logo-height: 3rem;
+  --logo-aspect-ratio: 5;
+  --header-height: 5rem;
+  --header-mobile-height: 4.5rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --space-section: 5.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --space-section: 7rem;
+  }
+}

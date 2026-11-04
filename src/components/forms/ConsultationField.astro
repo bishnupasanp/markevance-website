@@ -1,0 +1,75 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'url' | 'tel' | 'textarea' | 'select';
+  required?: boolean;
+  maxLength?: number;
+  autocomplete?: string;
+  hint?: string;
+  options?: readonly (readonly [string, string])[];
+  wide?: boolean;
+}
+const {
+  name,
+  label,
+  type = 'text',
+  required = false,
+  maxLength,
+  autocomplete,
+  hint,
+  options = [],
+  wide = false,
+} = Astro.props;
+const id = `consultation-${name}`;
+const describedBy = [hint ? `${id}-hint` : '', `${id}-error`]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div class:list={['intake-field', { 'intake-field--wide': wide }]}>
+  <label for={id}>
+    {label}
+    {!required && <span class="field-optional">Optional</span>}
+  </label>
+  {hint && (
+    <p class="field-hint" id={`${id}-hint`}>
+      {hint}
+    </p>
+  )}
+  {type === 'select' ? (
+    <select
+      id={id}
+      name={name}
+      required={required}
+      aria-describedby={describedBy}
+    >
+      <option value="" selected>
+        {required ? 'Select an option' : 'Choose if relevant'}
+      </option>
+      {options.map(([value, text]) => (
+        <option value={value}>{text}</option>
+      ))}
+    </select>
+  ) : type === 'textarea' ? (
+    <textarea
+      id={id}
+      name={name}
+      required={required}
+      maxlength={maxLength}
+      rows="4"
+      aria-describedby={describedBy}
+    ></textarea>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      required={required}
+      maxlength={maxLength}
+      autocomplete={autocomplete}
+      aria-describedby={describedBy}
+    />
+  )}
+  <p class="field-error" id={`${id}-error`}></p>
+</div>

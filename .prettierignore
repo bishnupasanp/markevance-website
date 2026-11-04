@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.astro/
+/tmp/
+# Generated project reports are preserved as delivered artifacts.
+/output/
+package-lock.json
+sources/
+# Approved references are read-only, including during npm run format.
+AGENTS.md
+BUSINESS.md
+ICP.md
+OFFERS.md
+CUSTOMER_JOURNEY.md
+KEYWORD_STRATEGY.md
+SITE_MAP.md
+DESIGN_SYSTEM.md
+TECH_SPEC.md
+COPY_HOME.md
+public/fonts/

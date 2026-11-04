@@ -1,0 +1,148 @@
+---
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import { engagementModels } from '../../data/home.ts';
+import { getPublishedInsights } from '../../lib/content.ts';
+import type { SitePath } from '../../types/site.ts';
+
+const insights = await getPublishedInsights();
+const services: readonly { title: string; copy: string; href: SitePath }[] = [
+  {
+    title: 'B2B Lead Generation',
+    copy: 'Reach the right businesses. Qualify the next conversation.',
+    href: '/services/b2b-lead-generation/',
+  },
+  {
+    title: 'Paid Acquisition',
+    copy: 'Connect advertising spend with relevant enquiries.',
+    href: '/services/paid-acquisition/',
+  },
+  {
+    title: 'SEO + AEO + GEO',
+    copy: 'Make your expertise easier to discover in search.',
+    href: '/services/seo-aeo-geo/',
+  },
+  {
+    title: 'Fractional SDR',
+    copy: 'Research, outreach and follow-up through to meeting handoff.',
+    href: '/services/fractional-sdr/',
+  },
+  {
+    title: 'CRM & Automation',
+    copy: 'Give every lead an owner and a clear next action.',
+    href: '/services/crm-automation/',
+  },
+];
+---
+
+<section
+  class="home-section overview-solutions"
+  id="solutions"
+  aria-labelledby="overview-solutions-title"
+>
+  <Container>
+    <div class="overview-heading">
+      <div>
+        <p class="eyebrow">SOLUTIONS</p>
+        <h2 id="overview-solutions-title">Choose where to start.</h2>
+      </div>
+      <p>Explore each service for the work, process and measures behind it.</p>
+    </div>
+    <ol class="overview-services">
+      {services.map((item, index) => (
+        <li>
+          <span class="list-index" aria-hidden="true">
+            0{index + 1}
+          </span>
+          <h3>
+            <a href={item.href}>{item.title}</a>
+          </h3>
+          <p>{item.copy}</p>
+          <a
+            class="home-text-link"
+            href={item.href}
+            aria-label={'Know more about ' + item.title}
+          >
+            Know more <Icon name="arrow-up-right" />
+          </a>
+        </li>
+      ))}
+    </ol>
+    <div class="overview-models" id="growth-solutions">
+      <p>Three ways to engage</p>
+      <ul aria-label="Engagement models">
+        {engagementModels.map((model) => (
+          <li>{model.name}</li>
+        ))}
+      </ul>
+      <a class="home-text-link" href="/services/#engagement-directory">
+        Compare models <Icon name="arrow-up-right" />
+      </a>
+    </div>
+  </Container>
+</section>
+
+<section
+  class="home-section overview-industries"
+  aria-labelledby="overview-industries-title"
+>
+  <Container>
+    <div class="overview-heading">
+      <div>
+        <p class="eyebrow">NEPAL-FIRST</p>
+        <h2 id="overview-industries-title">Focused on your market.</h2>
+      </div>
+      <p>
+        For established businesses with a working offer and the capacity to
+        grow.
+      </p>
+    </div>
+    <div class="overview-industry-pair">
+      <article>
+        <h3>
+          <a href="/industries/technology-software/">
+            Technology & Software <Icon name="arrow-up-right" />
+          </a>
+        </h3>
+        <p>Build qualified pipeline for your sales team.</p>
+      </article>
+      <article>
+        <h3>
+          <a href="/industries/education/">
+            Education <Icon name="arrow-up-right" />
+          </a>
+        </h3>
+        <p>Connect enquiry, counselling, application and admission.</p>
+      </article>
+    </div>
+    <div class="overview-approach" id="positioning">
+      <p>Diagnose the bottleneck. Connect the work. Measure with evidence.</p>
+      <a class="home-text-link" href="/how-we-work/">
+        See how we work <Icon name="arrow-up-right" />
+      </a>
+    </div>
+  </Container>
+</section>
+
+{insights.length > 0 && (
+  <section
+    class="home-section overview-insights"
+    aria-labelledby="overview-insights-title"
+  >
+    <Container>
+      <h2 id="overview-insights-title">From our insights.</h2>
+      <ul class="overview-insight-links">
+        {insights.slice(0, 2).map((entry) => (
+          <li>
+            <a
+              class="home-text-link"
+              href={'/insights/' + entry.data.slug + '/'}
+            >
+              {entry.data.title} <Icon name="arrow-up-right" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </section>
+)}

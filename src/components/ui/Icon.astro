@@ -1,0 +1,29 @@
+---
+interface Props {
+  name?: 'arrow-right' | 'arrow-up-right' | 'arrow-down' | 'plus' | 'check';
+  class?: string;
+}
+const { name = 'arrow-right', class: className } = Astro.props;
+const paths = {
+  'arrow-right': 'M5 12h14m-7-7 7 7-7 7',
+  'arrow-up-right': 'M7 17 17 7M7 7h10v10',
+  'arrow-down': 'M12 5v14m-7-7 7 7 7-7',
+  plus: 'M12 5v14M5 12h14',
+  check: 'm9 12 2 2 4-4',
+};
+---
+
+<svg
+  class={className}
+  aria-hidden="true"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d={paths[name]} />
+</svg>

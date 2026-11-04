@@ -1,0 +1,241 @@
+---
+import Container from '../ui/Container.astro';
+import PageCTA from './PageCTA.astro';
+import RelatedLinks from './RelatedLinks.astro';
+import GrowthStories from '../motion/GrowthStories.astro';
+import HomeFAQ from '../home/HomeFAQ.astro';
+interface Props {
+  kind: 'about' | 'process';
+}
+const { kind } = Astro.props;
+const operatingWork = [
+  {
+    title: 'Discovery',
+    copy: 'Understand the product, audience, capacity, sales cycle, existing channels and the owner’s commercial objective. Identify the information and access needed to make a useful diagnosis.',
+  },
+  {
+    title: 'Strategy',
+    copy: 'Choose the priority bottleneck, customer profile, channel approach and scope. Agree stage definitions, responsibilities and measures before execution.',
+  },
+  {
+    title: 'Execution',
+    copy: 'Connect campaign messages, content, landing pages and enquiry handling. Keep work focused on the agreed priorities instead of increasing activity everywhere.',
+  },
+  {
+    title: 'Qualification',
+    copy: 'Check fit and interest, document the conversation and assign the next action. Separate a raw enquiry, a qualified lead, a booked meeting and a client-confirmed opportunity.',
+  },
+  {
+    title: 'Reporting',
+    copy: 'Review sources, qualified leads, meetings and opportunities. Report revenue only where attribution is supportable, and explain missing data and limitations.',
+  },
+  {
+    title: 'Iteration',
+    copy: 'Use the evidence to change targeting, messages, landing pages or follow-up. Record what changed, why it changed and what the next review should establish.',
+  },
+];
+---
+
+{kind === 'process' ? (
+  <>
+    <GrowthStories />
+    <section class="page-band page-band-light" aria-labelledby="operating-work">
+      <Container>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">FROM DIAGNOSIS TO ITERATION</p>
+            <h2 id="operating-work">A working rhythm with clear ownership.</h2>
+            <p class="section-context">
+              Scope and review cadence are agreed for each engagement. A useful
+              report answers what happened, why it matters and what changes
+              next.
+            </p>
+          </div>
+          <ol class="work-sequence">
+            {operatingWork.map((step, index) => (
+              <li>
+                <span class="list-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="responsibility-note">
+          <h3>What the client brings</h3>
+          <p>
+            Accurate product or programme information, relevant access, a
+            decision maker, sales or counselling capacity and feedback on lead
+            outcomes. No agency can replace those responsibilities with campaign
+            volume.
+          </p>
+        </div>
+        <RelatedLinks
+          links={[
+            { label: 'Solutions', href: '/services/' },
+            {
+              label: 'Technology & Software',
+              href: '/industries/technology-software/',
+            },
+            { label: 'Education', href: '/industries/education/' },
+          ]}
+        />
+      </Container>
+    </section>
+  </>
+) : (
+  <>
+    <section
+      class="page-band page-band-light"
+      aria-labelledby="company-philosophy"
+    >
+      <Container>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">THE PHILOSOPHY</p>
+            <h2 id="company-philosophy">
+              Customer acquisition is connected work.
+            </h2>
+          </div>
+          <div class="page-copy">
+            <p>
+              A business can have a good product and still struggle with
+              inconsistent demand, unclear qualification or weak follow-up.
+              Markevance’s model brings those parts into one commercial
+              conversation.
+            </p>
+            <p>
+              We work across Marketing → Lead Generation → Sales Development →
+              Conversion → Measurement. The purpose is to make the path from
+              attention to opportunity clearer and more accountable.
+            </p>
+            <p>
+              Technology/software and education are the primary focus. The
+              buying journey changes by industry; the need for accurate
+              information, ownership and measurement remains.
+            </p>
+          </div>
+        </div>
+      </Container>
+    </section>
+    <section
+      class="page-band"
+      data-theme="dark"
+      aria-labelledby="company-market"
+    >
+      <Container>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">NEPAL-FIRST</p>
+            <h2 id="company-market">Local focus. Commercial discipline.</h2>
+            <figure class="company-forward-line">
+              <img
+                src="/brand/markevance-04-abstract-forward-line.svg"
+                width="500"
+                height="220"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                Demand → qualification → opportunity. Illustrative progression.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="page-copy">
+            <p>
+              Markevance prioritises businesses in Nepal, with technology,
+              software and education as our primary focus. We connect demand
+              generation, qualification and sales development around the way
+              your customers make decisions.
+            </p>
+            <p>
+              Our approach starts with the business situation and the buyer.
+              Channel choice follows that understanding, rather than a fixed
+              menu of posts, clicks or deliverables.
+            </p>
+            <a class="text-link" href="/how-we-work/">
+              See the operating model
+            </a>
+          </div>
+        </div>
+      </Container>
+    </section>
+    <section
+      class="page-band page-band-light"
+      aria-labelledby="company-principles"
+    >
+      <Container>
+        <div class="page-split">
+          <div>
+            <p class="eyebrow">WORKING PRINCIPLES</p>
+            <h2 id="company-principles">
+              Clarity creates a stronger working relationship.
+            </h2>
+          </div>
+          <ul class="principles-list">
+            <li>
+              <h3>Diagnose before prescribing</h3>
+              <p>
+                Understand the bottleneck before choosing channels, tools or a
+                service scope.
+              </p>
+            </li>
+            <li>
+              <h3>Make the handoff explicit</h3>
+              <p>
+                Marketing, sales development and client-led closing need
+                distinct responsibilities and shared context.
+              </p>
+            </li>
+            <li>
+              <h3>Measure with evidence</h3>
+              <p>
+                Separate raw enquiries from qualified demand and reported
+                outcomes from unsupported attribution.
+              </p>
+            </li>
+            <li>
+              <h3>Keep claims proportionate</h3>
+              <p>
+                Publish only verified work and permissioned evidence. Do not use
+                guarantees to substitute for a clear process.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <RelatedLinks
+          links={[
+            { label: 'Solutions', href: '/services/' },
+            { label: 'Industries', href: '/industries/' },
+            { label: 'Evidence standards', href: '/case-studies/' },
+          ]}
+        />
+      </Container>
+    </section>
+    <div class="homepage">
+      <HomeFAQ />
+    </div>
+  </>
+)}
+<PageCTA />
+<style>
+  .company-forward-line {
+    max-width: 18rem;
+    margin-top: 1.5rem;
+  }
+  .company-forward-line img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .company-forward-line figcaption {
+    color: var(--color-text-muted-dark);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+</style>

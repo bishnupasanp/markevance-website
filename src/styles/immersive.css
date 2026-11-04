@@ -1,0 +1,373 @@
+/* The operating story remains semantic and complete before enhancement. */
+.homepage .forward-line path {
+  /* Non-scaling strokes also prevent the normalized dash from following the
+     stretched SVG axis. The perpendicular axis remains two pixels wide. */
+  vector-effect: none;
+}
+.homepage .growth-flow {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--home-rule);
+}
+.homepage .growth-flow-diagram {
+  display: block;
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+  margin-top: 1rem;
+  overflow: visible;
+}
+.homepage .flow-labels {
+  fill: var(--home-copy);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+.homepage .flow-segment {
+  fill: var(--color-background-dark);
+  stroke: var(--color-link-dark);
+  stroke-width: 1.5;
+}
+.homepage .flow-segment path {
+  fill: none;
+}
+.homepage .flow-qualification {
+  stroke: var(--color-accent-prestige);
+}
+.homepage .flow-segment .flow-gate {
+  fill: var(--color-background-dark);
+  stroke-width: 2;
+}
+.homepage .flow-feedback {
+  stroke-dasharray: 3 5;
+}
+.homepage .flow-handoff {
+  margin-top: 1rem;
+  font-size: var(--text-small);
+  max-width: 40ch;
+}
+.homepage .system-map-line {
+  margin-block: 1rem;
+}
+.homepage .system-map-line ol {
+  gap: 0;
+}
+.homepage .system-map-line a {
+  min-height: 44px;
+  padding-block: 0.25rem;
+}
+.homepage .system-map-line .system-node {
+  width: 2rem;
+  height: 2rem;
+}
+.homepage .system-map-line .forward-line {
+  left: 1rem;
+}
+.homepage [data-scroll-story] .flow-segment {
+  stroke: var(--color-border);
+}
+.homepage [data-scroll-story] .flow-segment[data-active] {
+  stroke: var(--color-link-dark);
+}
+.homepage [data-scroll-story] .flow-qualification[data-active] {
+  stroke: var(--color-accent-prestige);
+}
+.homepage .system-stage h3 {
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+.homepage .system-stage[data-current] h3 {
+  color: var(--color-link-dark);
+}
+.homepage .system-stage[data-current][data-milestone='qualification'] h3 {
+  color: var(--color-accent-prestige);
+}
+
+/* Stage links become keyboard-operated tabs only after initialization. */
+.homepage .pipeline-track::before,
+.homepage .pipeline-track .forward-line {
+  display: none;
+}
+.homepage .pipeline-track ol {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1.25rem;
+}
+.homepage [data-pipeline-node] {
+  display: block;
+  min-width: 0;
+}
+.homepage .pipeline-stage-link {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.25rem 0.5rem;
+  align-items: baseline;
+  padding: 0.875rem 0.25rem;
+  min-height: var(--touch-target);
+  border-bottom: 2px solid var(--color-text-muted-dark);
+  text-decoration: none;
+  transition: border-color var(--duration-micro) var(--ease-standard);
+}
+.homepage .pipeline-stage-link .pipeline-dot {
+  display: none;
+}
+.homepage .pipeline-stage-name {
+  font-size: var(--text-small);
+}
+.homepage [data-pipeline-node][data-current] .pipeline-stage-name {
+  color: var(--home-text);
+  font-weight: 400;
+  text-decoration: none;
+}
+.homepage [data-pipeline-node][data-selected] .pipeline-stage-link,
+.homepage .pipeline-stage-link:hover {
+  border-bottom-color: var(--color-link-dark);
+}
+.homepage [data-pipeline-node][data-selected] .pipeline-stage-name {
+  color: var(--color-link-dark);
+  font-weight: 600;
+}
+.homepage
+  [data-pipeline-node][data-milestone='qualification'][data-selected]
+  .pipeline-stage-link {
+  border-bottom-color: var(--color-accent-prestige);
+}
+.homepage
+  [data-pipeline-node][data-milestone='qualification']
+  .pipeline-stage-name {
+  color: var(--color-accent-prestige);
+}
+.homepage .pipeline-instruction {
+  margin-top: 1.5rem;
+  font-size: var(--text-small);
+}
+.homepage .pipeline-explanations {
+  margin-top: 2rem;
+  border-top: 1px solid var(--home-rule);
+}
+.homepage .pipeline-explanation {
+  display: grid;
+  gap: 1.75rem;
+  padding-block: 2rem;
+  scroll-margin-top: 2rem;
+}
+.homepage .pipeline-explanation[hidden] {
+  display: none;
+}
+.homepage .pipeline-explanation + .pipeline-explanation:not([hidden]) {
+  border-top: 1px solid var(--home-rule);
+}
+.homepage [data-explorer-ready] .pipeline-explanations .pipeline-explanation {
+  border-top: 0;
+}
+.homepage .pipeline-explanation-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.5rem;
+}
+.homepage .pipeline-detail-index {
+  font-family: var(--font-mono);
+  font-size: clamp(2.25rem, 4vw, 4rem);
+  line-height: 1;
+  color: var(--home-muted);
+}
+.homepage .pipeline-explanation .eyebrow {
+  margin-bottom: 0.75rem;
+}
+.homepage .pipeline-explanation h3 {
+  max-width: 24ch;
+}
+.homepage .pipeline-explanation-copy > p {
+  max-width: 60ch;
+}
+.homepage .pipeline-explanation dl {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: var(--text-small);
+}
+.homepage .pipeline-explanation dt {
+  font-family: var(--font-mono);
+  color: var(--home-muted);
+  margin-bottom: 0.25rem;
+}
+.homepage .pipeline-explanation dd {
+  color: var(--home-text);
+}
+
+@media (min-width: 48rem) {
+  .homepage .pipeline-track ol {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .homepage .pipeline-explanation {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+@media (min-width: 64rem) {
+  .homepage .pipeline-track ol {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .homepage .pipeline-track .forward-line {
+    display: block;
+    top: 3.75rem;
+    left: 0.625rem;
+    width: calc((100% + 1rem) * 6 / 7);
+  }
+  .homepage .pipeline-stage-link {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 10rem;
+  }
+  .homepage .pipeline-stage-link .pipeline-dot {
+    display: block;
+  }
+  .homepage .pipeline-stage-link .pipeline-number {
+    line-height: 1.25rem;
+  }
+  .homepage [data-explorer-ready] .pipeline-explanations {
+    /* Reserve the detail area before switching stages to prevent layout jumps. */
+    min-height: 23rem;
+  }
+}
+.homepage .story-controls {
+  display: none;
+}
+.homepage .story-runway {
+  overflow-anchor: none;
+}
+.homepage [data-explorer-ready] .pipeline-track .forward-line-active {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--pipeline-progress, 0));
+  transition: stroke-dashoffset var(--duration-standard) var(--ease-standard);
+}
+.homepage
+  [data-explorer-ready]
+  [data-milestone='qualification']:not([data-active])
+  .pipeline-dot {
+  background: var(--color-surface-dark);
+}
+
+/* The scene stays in one place; the native document scroll selects its stage.
+   JS enables this only when the complete scene fits the available viewport. */
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .homepage [data-scroll-story] .story-scene {
+    position: sticky;
+  }
+  .homepage [data-scroll-story] .story-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--home-rule);
+    font-size: var(--text-small);
+  }
+  .homepage .story-controls p {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .homepage .story-controls [data-story-count] {
+    font-family: var(--font-mono);
+    color: var(--home-text);
+  }
+  .homepage .story-controls a {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: var(--touch-target);
+    color: var(--color-link-dark);
+  }
+  .homepage [data-scroll-story] .system-layout {
+    align-items: center;
+    gap: var(--space-column);
+  }
+  .homepage [data-scroll-story] .system-map {
+    position: static;
+    padding-top: 1rem;
+  }
+  .homepage [data-scroll-story] .growth-flow-diagram {
+    max-width: 12rem;
+    margin-top: 0.75rem;
+  }
+  .homepage [data-scroll-story] .flow-handoff {
+    margin-top: 0.5rem;
+  }
+  .homepage [data-scroll-story] .system-stages {
+    display: grid;
+    align-items: start;
+  }
+  .homepage [data-scroll-story] .system-stage {
+    grid-area: 1 / 1;
+    padding-block: 0;
+    border: 0;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity var(--duration-standard) var(--ease-standard),
+      transform var(--duration-standard) var(--ease-standard);
+  }
+  .homepage [data-scroll-story] .system-stage[data-current] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+  .homepage [data-scroll-story] .system-map-line .forward-line-active {
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - var(--story-progress, 0));
+    transition: stroke-dashoffset var(--duration-standard) var(--ease-standard);
+  }
+  .homepage [data-scroll-story] .commercial-pipeline {
+    margin-top: 0;
+  }
+  .homepage [data-pipeline-story] .story-runway {
+    margin-top: 3rem;
+  }
+  .homepage [data-scroll-story] .pipeline-stage-link {
+    min-height: 7rem;
+    gap: 1rem;
+  }
+  .homepage [data-scroll-story] .pipeline-track {
+    margin-top: 1rem;
+  }
+  .homepage [data-scroll-story] .pipeline-track .forward-line {
+    top: 3.5rem;
+  }
+  .homepage [data-scroll-story] .pipeline-instruction {
+    margin-top: 0.75rem;
+  }
+  .homepage [data-scroll-story] .pipeline-explanations {
+    margin-top: 1rem;
+    min-height: 0;
+  }
+  .homepage [data-scroll-story] .pipeline-explanation {
+    padding-block: 1.5rem 0;
+    gap: var(--space-column);
+    animation: pipeline-stage-enter var(--duration-standard)
+      var(--ease-standard);
+  }
+  .homepage [data-scroll-story] .pipeline-explanation dl {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 1rem;
+  }
+  .homepage [data-scroll-story] .measurement-definitions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+  }
+}
+@keyframes pipeline-stage-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .homepage :is(.system-stage h3, .pipeline-stage-link, .forward-line-active) {
+    transition: none;
+  }
+}
