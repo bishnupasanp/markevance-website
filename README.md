@@ -49,3 +49,13 @@ inactive. Hosting and legal review remain separate release requirements.
 
 Local fonts and icon licensing are retained under `public/fonts/` and
 `public/licenses/`.
+
+## cPanel Git deployment
+
+The cPanel checkout is `/home/pmnmmwbp/repositories/markevance-website` on `main`.
+Use **Update from Remote**, then **Deploy HEAD Commit** in Git Version Control.
+The checked-in deployment task uses the host's Node.js 24, runs validation,
+backs up the current domain files under `~/markevance-deployments/`, and publishes
+the static build to the verified `markevance.com` document root. Existing Apache
+rules and domain-verification files are preserved. GitHub pushes require this
+manual pull/deploy step.
