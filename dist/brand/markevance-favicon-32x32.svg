@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="6" fill="#080E18" />
+  <g transform="translate(3.5, 4.2) scale(0.1)" fill="#C5A880">
+    <!-- Scaled & thickened M+V vector for micro resolutions -->
+    <polygon points="0,0 0,48 125,164 250,48 250,0 125,116" />
+    <polygon points="0,80 0,235 38,235 38,154 125,235 212,154 212,235 250,235 250,80 125,196" />
+  </g>
+</svg>

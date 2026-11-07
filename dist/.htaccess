@@ -1,0 +1,23 @@
+# Apache 2.4 domain-root configuration. Merge with existing host rules before release.
+# Requires mod_headers, mod_rewrite, authz_core and AllowOverride for these directives.
+# Keep HTTP/www redirects at the host, after verifying TLS and reverse-proxy handling.
+Options -Indexes
+ServerSignature Off
+ErrorDocument 404 /404.html
+
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+# Astro generates the per-page resource/hash policy in HTML. Framing needs an HTTP header.
+Header always set Content-Security-Policy "frame-ancestors 'none'"
+# Start with one day, without includeSubDomains/preload. Requires direct verified HTTPS.
+# A TLS-terminating proxy needs host-managed HSTS instead; do not trust forwarded headers here.
+Header always set Strict-Transport-Security "max-age=86400" "expr=%{HTTPS} == 'on'"
+
+# Defense in depth if repository files are accidentally uploaded. Never deploy them.
+RewriteEngine On
+RewriteRule "(^|/)(\.(?!well-known(?:/|$))[^/]*|node_modules|src|docs|sources|tests|scripts|output|tmp)(/|$)" - [F,L,NC]
+<FilesMatch "(?i)(\.(?:env|pem|key|p12|pfx|sql|sqlite3?|db|bak|backup|old|orig|log|map|ini|ya?ml|ts|tsx|astro|md|mdx)$|^(?:package(?:-lock)?\.json|tsconfig\.json|.*(?:credentials|service-account).*\.json)$)">
+    Require all denied
+</FilesMatch>

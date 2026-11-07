@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <rect width="800" height="520" fill="#080E18" />
+  <g transform="translate(287.5, 55) scale(0.9)">
+    <polygon points="0,0 0,43 125,159 250,43 250,0 125,116" fill="#C5A880" />
+    <polygon points="0,75 0,235 33,235 33,149 125,235 217,149 217,235 250,235 250,75 125,191" fill="#C5A880" />
+  </g>
+  <text x="400" y="375" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="68" font-weight="700" letter-spacing="0.06em" fill="#F8F9FA">MARKEVANCE</text>
+  <text x="400" y="430" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="15" font-weight="600" letter-spacing="0.28em" fill="#C5A880">GROWTH MARKETING &amp; SALES DEVELOPMENT</text>
+</svg>

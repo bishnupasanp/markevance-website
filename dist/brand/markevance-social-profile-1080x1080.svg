@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <!-- Sovereign Navy Background -->
+  <rect width="1080" height="1080" fill="#080E18" />
+
+  <!-- Subtle Midnight Slate Inner Ring (Optional/Restrained) -->
+  <circle cx="540" cy="540" r="480" fill="none" stroke="#121C2B" stroke-width="2" />
+
+  <!-- Centered M+V Monogram (Scaled for Circular Safe-Zone) -->
+  <g transform="translate(265, 281.5) scale(2.2)" fill="#C5A880">
+    <polygon points="0,0 0,43 125,159 250,43 250,0 125,116" />
+    <polygon points="0,75 0,235 33,235 33,149 125,235 217,149 217,235 250,235 250,75 125,191" />
+  </g>
+</svg>
