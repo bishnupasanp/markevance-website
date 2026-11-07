@@ -21,3 +21,8 @@ RewriteRule "(^|/)(\.(?!well-known(?:/|$))[^/]*|node_modules|src|docs|sources|te
 <FilesMatch "(?i)(\.(?:env|pem|key|p12|pfx|sql|sqlite3?|db|bak|backup|old|orig|log|map|ini|ya?ml|ts|tsx|astro|md|mdx)$|^(?:package(?:-lock)?\.json|tsconfig\.json|.*(?:credentials|service-account).*\.json)$)">
     Require all denied
 </FilesMatch>
+
+# Markevance HTML cache revalidation
+<FilesMatch "\.html$">
+    Header always set Cache-Control "no-cache, max-age=0, must-revalidate"
+</FilesMatch>

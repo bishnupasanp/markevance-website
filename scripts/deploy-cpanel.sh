@@ -55,6 +55,17 @@ if ! test -f "$website_dir/.htaccess"; then
   install -m 644 "$repository_dir/dist/.htaccess" "$website_dir/.htaccess"
 fi
 
+# Apply the HTML cache rule while retaining the host's existing Apache rules.
+if ! grep -Fq '# Markevance HTML cache revalidation' "$website_dir/.htaccess"; then
+  cat >> "$website_dir/.htaccess" <<'APACHE'
+
+# Markevance HTML cache revalidation
+<FilesMatch "\.html$">
+    Header always set Cache-Control "no-cache, max-age=0, must-revalidate"
+</FilesMatch>
+APACHE
+fi
+
 # Switch the homepage after the other pages and their assets are available.
 homepage_temp=$(mktemp "$website_dir/.markevance-index.XXXXXX")
 install -m 644 "$repository_dir/dist/index.html" "$homepage_temp"
