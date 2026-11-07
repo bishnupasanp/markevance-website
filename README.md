@@ -52,10 +52,16 @@ Local fonts and icon licensing are retained under `public/fonts/` and
 
 ## cPanel Git deployment
 
-The cPanel checkout is `/home/pmnmmwbp/repositories/markevance-website` on `main`.
+The cPanel checkout is `/home/pmnmmwbp/repositories/markevance-website` on `cpanel`.
 Use **Update from Remote**, then **Deploy HEAD Commit** in Git Version Control.
-The checked-in deployment task uses the host's Node.js 24, runs validation,
-backs up the current domain files under `~/markevance-deployments/`, and publishes
-the static build to the verified `markevance.com` document root. Existing Apache
-rules and domain-verification files are preserved. GitHub pushes require this
-manual pull/deploy step.
+The shared host's process limit prevents a reliable Node.js build. Build and run
+all validation commands locally from `main`, then publish that source revision
+and the generated `dist/` to the `cpanel` release branch. Each release includes
+`cpanel-release.sha256` listing every build file and `cpanel-source-revision.txt`
+identifying the source commit.
+
+The deployment task verifies the release hashes, backs up the current domain
+files under `~/markevance-deployments/`, and publishes the static build to the
+verified `markevance.com` document root. Existing Apache rules and
+domain-verification files are preserved. GitHub pushes require this manual
+pull/deploy step after publishing the release branch.

@@ -4,15 +4,12 @@ set -euo pipefail
 repository_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 website_dir="/home/pmnmmwbp/markevance.com"
 deployment_dir="/home/pmnmmwbp/markevance-deployments"
-node_dir="/opt/alt/alt-nodejs24/root/usr/bin"
 
 # These guards prevent deployment to a different account, checkout, or domain.
 test "$(id -un)" = "pmnmmwbp"
 test "$repository_dir" = "/home/pmnmmwbp/repositories/markevance-website"
 test "$(readlink -f -- "$website_dir")" = "$website_dir"
 test -d "$website_dir"
-test -x "$node_dir/node"
-test -x "$node_dir/npm"
 command -v rsync >/dev/null
 command -v flock >/dev/null
 
@@ -26,23 +23,23 @@ cd -- "$repository_dir"
 git diff --quiet
 git diff --cached --quiet
 revision=$(git rev-parse HEAD)
-export PATH="$node_dir:$PATH"
 
-# Validate the same locked source revision that cPanel checked out from GitHub.
-npm ci --ignore-scripts --no-audit --no-fund
-npm run check
-npm test
-npm run format:check
-npm run build
-npm run validate:build
-test "$(git rev-parse HEAD)" = "$revision"
-git diff --quiet
-git diff --cached --quiet
+# The cpanel branch contains the locally validated build and its integrity list.
+# Shared-host process limits prevent a reliable Node.js build on this account.
+test "$(git branch --show-current)" = "cpanel"
+test -f "$repository_dir/cpanel-release.sha256"
+test -f "$repository_dir/cpanel-source-revision.txt"
+test -f "$repository_dir/dist/index.html"
+test -f "$repository_dir/dist/.htaccess"
+test -z "$(find "$repository_dir/dist" -type l -print -quit)"
+sha256sum --check --strict "$repository_dir/cpanel-release.sha256" >/dev/null
+test "$(find "$repository_dir/dist" -type f | wc -l)" -eq "$(wc -l < "$repository_dir/cpanel-release.sha256")"
 
 release_dir=$(mktemp -d "$deployment_dir/release-$(date -u +%Y%m%dT%H%M%SZ)-${revision:0:12}-XXXXXX")
 tar -czf "$release_dir/website-before.tar.gz" -C "$website_dir" .
 tar -tzf "$release_dir/website-before.tar.gz" >/dev/null
 printf '%s\n' "$revision" > "$release_dir/source-revision.txt"
+cp "$repository_dir/cpanel-source-revision.txt" "$release_dir/build-source-revision.txt"
 printf 'Backup verified at %s\n' "$release_dir/website-before.tar.gz"
 
 # Publish assets first so both the old and new HTML can load their bundles.
