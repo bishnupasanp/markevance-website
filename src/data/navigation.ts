@@ -30,6 +30,7 @@ export const footerNavigation: readonly NavigationGroup[] = [
       { label: 'About', href: '/about/' },
       { label: 'How We Work', href: '/how-we-work/' },
       { label: 'Contact', href: '/contact/' },
+      { label: 'Client portal', href: '/client-portal/' },
     ],
   },
   { label: 'Resources', items: [{ label: 'Insights', href: '/insights/' }] },

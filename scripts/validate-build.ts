@@ -31,7 +31,12 @@ for (const file of outputFiles) {
   if (/\.(?:html|js|css|json|xml|txt|svg)$|[\\/]\.htaccess$/i.test(file)) {
     const text = await readFile(file, 'utf8');
     assertSafeBuildText(text, relative(dist, file));
-    if (file.endsWith('.html')) assertPageCsp(text, relative(dist, file));
+    if (file.endsWith('.html'))
+      assertPageCsp(
+        text,
+        relative(dist, file),
+        relative(dist, file).replaceAll('\\', '/').startsWith('client-portal/'),
+      );
   }
 }
 const apacheConfig = await readFile(join(dist, '.htaccess'), 'utf8');
@@ -77,16 +82,21 @@ for (const route of routes) {
   for (const [form] of forms) {
     assert.equal(
       route.path,
-      '/book-consultation/',
-      'Only consultation has an active form.',
+      route.path === '/client-portal/'
+        ? '/client-portal/'
+        : '/book-consultation/',
+      'Only consultation and client sign-in have forms.',
     );
+    const action = form.match(/\baction="([^"]+)"/)?.[1];
     assert.ok(
-      resolveFormspreeEndpoint(form.match(/\baction="([^"]+)"/)?.[1]),
+      route.path === '/client-portal/'
+        ? action === '/client-portal/'
+        : resolveFormspreeEndpoint(action),
       'Unapproved form destination.',
     );
     assert.match(form, /method="POST"/i);
   }
-  if (route.path !== '/book-consultation/')
+  if (route.path !== '/book-consultation/' && route.path !== '/client-portal/')
     assert.ok(
       !/type="submit"/i.test(html),
       'Unexpected enabled submission control.',

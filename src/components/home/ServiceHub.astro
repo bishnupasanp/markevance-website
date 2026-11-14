@@ -54,30 +54,38 @@ const monogram = logoAssets.dark?.mark;
 ---
 
 <div class="growth-hub" data-growth-hub>
+  <p class="hub-overline" aria-hidden="true">
+    THE CONNECTED ADVANTAGE <span>01 — 06</span>
+  </p>
   <div class="growth-hub-stage">
+    <canvas
+      class="growth-hub-field"
+      data-growth-field
+      aria-hidden="true"
+    ></canvas>
     <svg
       class="growth-hub-connections"
-      viewBox="0 0 1000 440"
+      viewBox="0 0 600 480"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
       <ellipse
-        cx="500"
-        cy="220"
-        rx="425"
-        ry="152"
-        transform="rotate(-12 500 220)"
+        cx="300"
+        cy="240"
+        rx="255"
+        ry="160"
+        transform="rotate(-28 300 240)"
       />
       <ellipse
-        cx="500"
-        cy="220"
-        rx="425"
-        ry="152"
-        transform="rotate(12 500 220)"
+        cx="300"
+        cy="240"
+        rx="255"
+        ry="160"
+        transform="rotate(28 300 240)"
       />
       <path
         class="hub-spokes"
-        d="M500 220 230 78 M500 220 770 78 M500 220 100 220 M500 220 900 220 M500 220 230 362 M500 220 770 362"
+        d="M300 240 150 72 M300 240 450 72 M300 240 84 240 M300 240 516 240 M300 240 150 408 M300 240 450 408"
       />
     </svg>
     <div class="growth-hub-center">
@@ -93,13 +101,7 @@ const monogram = logoAssets.dark?.mark;
         />
       )}
       <strong>MARKEVANCE</strong>
-      <span class="hub-center-tagline">
-        Create demand.
-        <br />
-        Build pipeline.
-        <br />
-        Advance growth.
-      </span>
+      <span class="hub-center-tagline">THE GROWTH SYSTEM</span>
     </div>
     <nav
       class="growth-hub-links"
@@ -127,7 +129,7 @@ const monogram = logoAssets.dark?.mark;
     </nav>
   </div>
   <div class="growth-hub-footer">
-    <span>Explore a service. See how the work connects.</span>
+    <span>Connected capabilities. One direction.</span>
     <button
       type="button"
       class="hub-motion-toggle"

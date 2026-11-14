@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import '../styles/portal.css';
+import SEOHead from '../components/seo/SEOHead.astro';
+import { resolvePortalConfig } from '../lib/portal/model.ts';
+interface Props {
+  title: string;
+  path: `/${string}`;
+}
+const { title, path } = Astro.props;
+const config = resolvePortalConfig(
+  import.meta.env.PUBLIC_PORTAL_SUPABASE_URL,
+  import.meta.env.PUBLIC_PORTAL_SUPABASE_PUBLISHABLE_KEY,
+);
+Astro.csp?.insertDirective(`connect-src ${config?.url ?? "'none'"}`);
+Astro.csp?.insertDirective("form-action 'self'");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SEOHead
+      metadata={{
+        title,
+        description: path.endsWith('/dashboard/')
+          ? 'Review your website performance, delivery progress and reporting in your Markevance client workspace.'
+          : 'Sign in to your invitation-only Markevance client account to see website reporting and delivery updates.',
+        path,
+        noindex: true,
+      }}
+    />
+    <meta name="referrer" content="no-referrer" />
+    {config && <meta name="portal-auth-origin" content={config.url} />}
+  </head>
+  <body class="portal-body">
+    <a class="portal-skip" href="#portal-main">
+      Skip to workspace
+    </a>
+    <slot />
+  </body>
+</html>

@@ -24,7 +24,10 @@ import type { BreadcrumbItem, RouteDefinition } from '../types/site.ts';
 export const getStaticPaths = (() =>
   routes
     .filter(
-      (route) => route.path !== '/' && route.path !== '/book-consultation/',
+      (route) =>
+        route.path !== '/' &&
+        route.path !== '/book-consultation/' &&
+        !route.path.startsWith('/client-portal/'),
     )
     .map((route) => ({
       params: { path: route.path.slice(1, -1) },

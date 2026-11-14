@@ -6,7 +6,7 @@ import PrimaryNavigation from './PrimaryNavigation.astro';
 
 <header class="site-header" data-theme="dark" data-site-header>
   <Container class="header-inner">
-    <Logo theme="dark" />
+    <Logo theme="dark" compactOnMobile={false} />
     <details class="mobile-menu" data-mobile-menu>
       <summary
         class="menu-toggle"
@@ -38,7 +38,9 @@ import PrimaryNavigation from './PrimaryNavigation.astro';
 </script>
 <style>
   .site-header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 50;
     background: var(--color-background-dark);
     color: var(--color-text-light);
     border-bottom: 1px solid var(--border-dark);

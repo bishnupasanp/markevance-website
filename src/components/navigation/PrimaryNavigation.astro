@@ -45,6 +45,9 @@ const path = Astro.url.pathname;
     padding: 1rem var(--space-gutter) 1.5rem;
     background: var(--color-background-dark);
     border-bottom: 1px solid var(--border-dark);
+    max-height: calc(100dvh - var(--header-mobile-height));
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   ul {
     display: flex;
@@ -61,6 +64,7 @@ const path = Astro.url.pathname;
     text-decoration: none;
     color: var(--color-text-muted-dark);
     font-size: var(--text-small);
+    transition: color var(--duration-micro) var(--ease-standard);
   }
   a[data-active='true'],
   ul a:hover {

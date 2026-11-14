@@ -44,26 +44,29 @@ const services: readonly { title: string; copy: string; href: SitePath }[] = [
     <div class="overview-heading">
       <div>
         <p class="eyebrow">SOLUTIONS</p>
-        <h2 id="overview-solutions-title">Choose where to start.</h2>
+        <h2 id="overview-solutions-title">
+          The right work.
+          <br />
+          At the right stage.
+        </h2>
       </div>
-      <p>Explore each service for the work, process and measures behind it.</p>
+      <p>
+        Start with the bottleneck. Connect the capabilities that help your
+        business move forward.
+      </p>
     </div>
     <ol class="overview-services">
       {services.map((item, index) => (
-        <li>
-          <span class="list-index" aria-hidden="true">
-            0{index + 1}
-          </span>
-          <h3>
-            <a href={item.href}>{item.title}</a>
-          </h3>
-          <p>{item.copy}</p>
-          <a
-            class="home-text-link"
-            href={item.href}
-            aria-label={'Know more about ' + item.title}
-          >
-            Know more <Icon name="arrow-up-right" />
+        <li data-overview-reveal>
+          <a class="overview-service-link" href={item.href}>
+            <span class="list-index" aria-hidden="true">
+              0{index + 1}
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+            <span class="service-link-action">
+              Explore service <Icon name="arrow-up-right" />
+            </span>
           </a>
         </li>
       ))}
@@ -83,11 +86,68 @@ const services: readonly { title: string; copy: string; href: SitePath }[] = [
 </section>
 
 <section
+  class="home-section overview-process"
+  data-theme="dark"
+  aria-labelledby="overview-process-title"
+  id="positioning"
+>
+  <Container>
+    <div class="overview-heading" data-overview-reveal>
+      <div>
+        <p class="eyebrow">HOW WE WORK</p>
+        <h2 id="overview-process-title">
+          Every activity needs
+          <br />a next step.
+        </h2>
+      </div>
+      <p>
+        Bring marketing, sales development and measurement into the same
+        conversation.
+      </p>
+    </div>
+    <ol class="overview-process-steps" id="growth-approach">
+      <li data-overview-reveal>
+        <span class="list-index">01 / UNDERSTAND</span>
+        <h3>Find the constraint.</h3>
+        <p>
+          Review your offer, audience and acquisition journey before choosing
+          channels.
+        </p>
+      </li>
+      <li data-overview-reveal>
+        <span class="list-index">02 / CONNECT</span>
+        <h3>Build the handoff.</h3>
+        <p>
+          Connect demand, qualification and follow-up with a clear owner at each
+          stage.
+        </p>
+      </li>
+      <li data-overview-reveal>
+        <span class="list-index">03 / IMPROVE</span>
+        <h3>Follow the evidence.</h3>
+        <p>
+          Review qualified enquiries, meetings and opportunities alongside
+          channel activity.
+        </p>
+      </li>
+    </ol>
+    <div class="overview-accountability">
+      <p>
+        Clear scope. Defined responsibilities. Measures agreed with your team.
+      </p>
+      <a class="home-text-link" href="/how-we-work/">
+        Explore our approach <Icon name="arrow-up-right" />
+      </a>
+    </div>
+  </Container>
+</section>
+
+<section
   class="home-section overview-industries"
   aria-labelledby="overview-industries-title"
 >
   <Container>
-    <div class="overview-heading">
+    <div class="overview-heading" data-overview-reveal>
       <div>
         <p class="eyebrow">NEPAL-FIRST</p>
         <h2 id="overview-industries-title">Focused on your market.</h2>
@@ -98,7 +158,7 @@ const services: readonly { title: string; copy: string; href: SitePath }[] = [
       </p>
     </div>
     <div class="overview-industry-pair">
-      <article>
+      <article data-overview-reveal>
         <h3>
           <a href="/industries/technology-software/">
             Technology & Software <Icon name="arrow-up-right" />
@@ -106,7 +166,7 @@ const services: readonly { title: string; copy: string; href: SitePath }[] = [
         </h3>
         <p>Build qualified pipeline for your sales team.</p>
       </article>
-      <article>
+      <article data-overview-reveal>
         <h3>
           <a href="/industries/education/">
             Education <Icon name="arrow-up-right" />
@@ -114,12 +174,6 @@ const services: readonly { title: string; copy: string; href: SitePath }[] = [
         </h3>
         <p>Connect enquiry, counselling, application and admission.</p>
       </article>
-    </div>
-    <div class="overview-approach" id="positioning">
-      <p>Diagnose the bottleneck. Connect the work. Measure with evidence.</p>
-      <a class="home-text-link" href="/how-we-work/">
-        See how we work <Icon name="arrow-up-right" />
-      </a>
     </div>
   </Container>
 </section>

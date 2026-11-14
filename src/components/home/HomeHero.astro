@@ -9,14 +9,12 @@ import { pipelineStages } from '../../data/pipeline.ts';
 
 <section class="home-hero" data-theme="dark" aria-labelledby="hero-title">
   <Container>
-    <div class="hero-topline">
-      <span class="eyebrow">{copy.hero.eyebrow}</span>
-      <span class="hero-market">
-        NEPAL-FIRST <span aria-hidden="true">↗</span>
-      </span>
-    </div>
     <div class="hero-composition">
       <div class="hero-copy">
+        <p class="eyebrow">
+          <span class="hero-eyebrow-rule" aria-hidden="true"></span>
+          {copy.hero.eyebrow}
+        </p>
         <h1 id="hero-title">
           Turn marketing into <span>qualified pipeline.</span>
         </h1>
@@ -24,41 +22,35 @@ import { pipelineStages } from '../../data/pipeline.ts';
           Growth marketing and sales development for technology, software and
           education businesses in Nepal.
         </p>
-        <LinkButton href="/book-consultation/" class="hub-mobile-consultation">
-          {copy.hero.primary}
-          <Icon />
-        </LinkButton>
+        <div class="home-actions">
+          <LinkButton href="/book-consultation/">
+            {copy.hero.primary}
+            <Icon />
+          </LinkButton>
+          <a class="hero-secondary" href="#solutions">
+            Explore solutions <Icon name="arrow-down" />
+          </a>
+        </div>
+        <p class="hero-market">
+          <span aria-hidden="true">↗</span> NEPAL-FIRST. BUSINESS-FOCUSED.
+        </p>
       </div>
       <ServiceHub />
-      <div class="home-actions">
-        <LinkButton href="/book-consultation/" class="hub-desktop-consultation">
-          {copy.hero.primary}
-          <Icon />
-        </LinkButton>
-        <a class="hero-secondary" href="/how-we-work/#growth-system">
-          {copy.hero.secondary}
-          <Icon name="arrow-up-right" />
-        </a>
+    </div>
+    <div class="hero-foundation" id="commercial-journey">
+      <div class="hero-stage-anchors" aria-hidden="true">
+        {pipelineStages.map((stage) => (
+          <span id={`pipeline-${stage.slug}`}></span>
+        ))}
       </div>
-      <figure class="hero-pipeline" id="commercial-journey">
-        <figcaption id="growth-system">
-          MARKETING → SALES DEVELOPMENT → MEASUREMENT
-        </figcaption>
-        <ol class="hero-nodes" aria-label="Illustrative growth pipeline">
-          {pipelineStages.map((stage, i) => (
-            <li
-              id={`pipeline-${stage.slug}`}
-              data-milestone={i === 2 ? 'qualification' : undefined}
-            >
-              <a href={`/how-we-work/#pipeline-${stage.slug}`}>
-                <span class="hero-node-dot" aria-hidden="true"></span>
-                <span>{stage.name}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-        <p class="diagram-caption">Illustrative process · not client results</p>
-      </figure>
+      <span>ONE CONNECTED GROWTH SYSTEM</span>
+      <p id="growth-system">
+        Create demand. <span aria-hidden="true">↗</span> Build pipeline.{' '}
+        <span aria-hidden="true">↗</span> Advance growth.
+      </p>
+      <a href="/how-we-work/#growth-system">
+        See how it connects <Icon name="arrow-up-right" />
+      </a>
     </div>
   </Container>
 </section>
