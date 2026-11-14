@@ -189,6 +189,14 @@ test('release guard redacts credential evidence and requires an early restrictiv
   assert.doesNotThrow(() =>
     assertPageCsp(`${meta}<script src="/app.js"></script>`, 'fixture'),
   );
+  assert.throws(
+    () =>
+      assertPageCsp(
+        `${meta}<script>document.documentElement.dataset.colorMode='dark'</script>`,
+        'fixture',
+      ),
+    { message: 'fixture: inline script is missing its CSP hash' },
+  );
   assert.throws(() => assertPageCsp('<h1>No policy</h1>', 'fixture'));
   assert.throws(() =>
     assertPageCsp(

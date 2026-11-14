@@ -2,33 +2,38 @@
 import Container from '../ui/Container.astro';
 import Logo from '../ui/Logo.astro';
 import PrimaryNavigation from './PrimaryNavigation.astro';
+import ThemeToggle from '../ui/ThemeToggle.astro';
 ---
 
 <header class="site-header" data-theme="dark" data-site-header>
   <Container class="header-inner">
     <Logo theme="dark" compactOnMobile={false} />
-    <details class="mobile-menu" data-mobile-menu>
-      <summary
-        class="menu-toggle"
-        aria-controls="mobile-primary-navigation"
-        data-menu-toggle
-      >
-        <svg
-          aria-hidden="true"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
+    <div class="header-controls">
+      <ThemeToggle />
+      <details class="mobile-menu" data-mobile-menu>
+        <summary
+          class="menu-toggle"
+          aria-controls="mobile-primary-navigation"
+          data-menu-toggle
         >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <span>Menu</span>
-      </summary>
-      <PrimaryNavigation mobile />
-    </details>
+          <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          >
+            <path class="menu-line-top" d="M4 8h16" />
+            <path class="menu-line-bottom" d="M4 16h16" />
+          </svg>
+          <span>Menu</span>
+        </summary>
+        <PrimaryNavigation mobile />
+      </details>
+    </div>
     <PrimaryNavigation />
   </Container>
 </header>
@@ -41,10 +46,15 @@ import PrimaryNavigation from './PrimaryNavigation.astro';
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--color-background-dark);
+    background: color-mix(
+      in srgb,
+      var(--color-background-dark) 96%,
+      transparent
+    );
     color: var(--color-text-light);
     border-bottom: 1px solid var(--border-dark);
     container-type: inline-size;
+    backdrop-filter: blur(12px);
   }
   :global(.header-inner) {
     display: grid;
@@ -55,18 +65,42 @@ import PrimaryNavigation from './PrimaryNavigation.astro';
     padding-block: calc((var(--header-mobile-height) - var(--logo-height)) / 2);
     min-height: var(--header-mobile-height);
   }
+  .header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
   .menu-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
     min-height: var(--touch-target);
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--color-text-muted-dark);
-    border-radius: var(--radius-control);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-dark);
+    border-radius: 999px;
     cursor: pointer;
     list-style: none;
     font-size: var(--text-small);
+    font-weight: 500;
+    transition: background-color var(--duration-micro) var(--ease-standard);
+  }
+  .menu-toggle:hover,
+  .mobile-menu[open] .menu-toggle {
+    background: var(--color-surface-dark);
+  }
+  .menu-toggle path {
+    transform-origin: 12px 12px;
+    transition: transform var(--duration-micro) var(--ease-standard);
+  }
+  .mobile-menu[open] .menu-line-top {
+    transform: translateY(4px) rotate(45deg);
+    transform-origin: 12px 8px;
+  }
+  .mobile-menu[open] .menu-line-bottom {
+    transform: translateY(-4px) rotate(-45deg);
+    transform-origin: 12px 16px;
   }
   .menu-toggle::marker {
     content: '';
@@ -75,25 +109,34 @@ import PrimaryNavigation from './PrimaryNavigation.astro';
     display: none;
   }
   /* Let enlarged text create two rows instead of colliding with the wordmark. */
-  @container (max-width: 12rem) {
+  @container (max-width: 20rem) {
     :global(.header-inner) {
       grid-template-columns: minmax(0, 1fr);
     }
-    .mobile-menu {
+    .header-controls {
       justify-self: end;
       max-width: 100%;
+    }
+    .mobile-menu :global(.primary-navigation--mobile) {
+      max-height: calc(
+        100dvh - var(--header-mobile-height) - var(--touch-target) - 1px
+      );
     }
   }
   @media (min-width: 80rem) {
     :global(.header-inner) {
       display: grid;
       grid-template-rows: auto;
-      grid-template-columns: var(--logo-width) minmax(0, 1fr);
-      column-gap: 2rem;
+      grid-template-columns: var(--logo-width) minmax(0, 1fr) auto;
+      column-gap: 1.5rem;
       padding-block: calc((var(--header-height) - var(--logo-height)) / 2);
     }
     .mobile-menu {
       display: none;
+    }
+    .header-controls {
+      grid-column: 3;
+      grid-row: 1;
     }
   }
 </style>

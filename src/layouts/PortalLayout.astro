@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import '../styles/portal.css';
 import SEOHead from '../components/seo/SEOHead.astro';
+import ThemeScript from '../components/ui/ThemeScript.astro';
+import { themeBootstrapHash } from '../components/ui/theme-bootstrap.ts';
 import { resolvePortalConfig } from '../lib/portal/model.ts';
 interface Props {
   title: string;
@@ -14,6 +16,7 @@ const config = resolvePortalConfig(
 );
 Astro.csp?.insertDirective(`connect-src ${config?.url ?? "'none'"}`);
 Astro.csp?.insertDirective("form-action 'self'");
+Astro.csp?.insertScriptHash(themeBootstrapHash);
 ---
 
 <!doctype html>
@@ -33,6 +36,7 @@ Astro.csp?.insertDirective("form-action 'self'");
     {config && <meta name="portal-auth-origin" content={config.url} />}
   </head>
   <body class="portal-body">
+    <ThemeScript />
     <a class="portal-skip" href="#portal-main">
       Skip to workspace
     </a>

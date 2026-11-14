@@ -42,6 +42,14 @@ export function initializeServiceHubMotion(): void {
   let driftX = 0;
   let driftY = 0;
 
+  function updateColors(): void {
+    const palette = getComputedStyle(hub!);
+    colors = [
+      palette.getPropertyValue('--color-link-dark').trim(),
+      palette.getPropertyValue('--color-accent-prestige').trim(),
+    ];
+  }
+
   function draw(): void {
     if (!context || !width || !height) return;
     context.clearRect(0, 0, width, height);
@@ -106,11 +114,7 @@ export function initializeServiceHubMotion(): void {
     }
     if (eligible && visible && !context) {
       context = canvas!.getContext('2d');
-      const palette = getComputedStyle(hub!);
-      colors = [
-        palette.getPropertyValue('--color-link-dark').trim(),
-        palette.getPropertyValue('--color-accent-prestige').trim(),
-      ];
+      updateColors();
       resize();
     }
     toggle!.hidden = !eligible || !context;
@@ -171,6 +175,14 @@ export function initializeServiceHubMotion(): void {
   reduced.addEventListener('change', sync, options);
   desktop.addEventListener('change', sync, options);
   document.addEventListener('visibilitychange', sync, options);
+  document.addEventListener(
+    'color-mode-change',
+    () => {
+      updateColors();
+      if (!reduced.matches) draw();
+    },
+    options,
+  );
   const intersection = new IntersectionObserver((entries) => {
     visible = entries.some((entry) => entry.isIntersecting);
     sync();

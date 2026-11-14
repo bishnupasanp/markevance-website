@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 
 export function assertSafeBuildPath(value: string): void {
   const path = value.replaceAll('\\', '/');
@@ -81,6 +82,21 @@ export function assertPageCsp(
     !/unsafe-inline|unsafe-eval|https?:|\*/.test(scripts),
     `${path}: unsafe script policy`,
   );
+  const scriptElements =
+    policy.match(/(?:^|;)\s*script-src-elem\s+([^;]+)/)?.[1] ?? scripts;
+  for (const [, attributes, content] of html.matchAll(
+    /<script\b([^>]*)>([\s\S]*?)<\/script>/gi,
+  )) {
+    if (/\bsrc\s*=|\btype="application\/ld\+json"/i.test(attributes!)) continue;
+    assert.ok(
+      ['sha256', 'sha384', 'sha512'].some((algorithm) =>
+        scriptElements.includes(
+          `'${algorithm}-${createHash(algorithm).update(content!).digest('base64')}'`,
+        ),
+      ),
+      `${path}: inline script is missing its CSP hash`,
+    );
+  }
   // Astro inserts its policy before bundled resources. Earlier metadata and
   // inert JSON-LD are allowed, but executable scripts/styles/preloads are not.
   const beforePolicy = html

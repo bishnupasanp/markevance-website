@@ -6,6 +6,8 @@ import SiteHeader from '../components/navigation/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
 import SEOHead from '../components/seo/SEOHead.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import ThemeScript from '../components/ui/ThemeScript.astro';
+import { themeBootstrapHash } from '../components/ui/theme-bootstrap.ts';
 import { organizationSchema, websiteSchema } from '../lib/structured-data.ts';
 import type { PageMetadata } from '../types/seo.ts';
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
 const { metadata } = Astro.props;
 Astro.csp?.insertDirective("connect-src 'none'");
 Astro.csp?.insertDirective('form-action https://formspree.io');
+Astro.csp?.insertScriptHash(themeBootstrapHash);
 ---
 
 <!doctype html>
@@ -25,6 +28,7 @@ Astro.csp?.insertDirective('form-action https://formspree.io');
     <slot name="head" />
   </head>
   <body>
+    <ThemeScript />
     <SkipLink />
     <SiteHeader />
     <main id="main-content" tabindex="-1">
