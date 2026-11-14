@@ -19,11 +19,33 @@ export function initConsultationForms(): void {
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
       >('input:not([type="hidden"]), select, textarea');
       const errors = form.querySelector<HTMLElement>('[data-form-errors]');
+      const errorLinks = form.querySelector<HTMLElement>('[data-error-links]');
       let pending = false;
       let started = false;
       const showStatus = (message: string): void => {
         status.textContent = message;
         status.hidden = false;
+      };
+      const updateErrorSummary = (): void => {
+        if (!errors || !errorLinks) return;
+        errorLinks.replaceChildren();
+        controls.forEach((control) => {
+          if (control.getAttribute('aria-invalid') !== 'true') return;
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `#${control.id}`;
+          link.textContent =
+            control.labels?.[0]?.textContent?.trim() || control.name;
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const details = control.closest('details');
+            if (details) details.open = true;
+            control.focus();
+          });
+          item.append(link);
+          errorLinks.append(item);
+        });
+        errors.hidden = errorLinks.childElementCount === 0;
       };
       const resetPending = (): void => {
         pending = false;
@@ -69,7 +91,7 @@ export function initConsultationForms(): void {
           control.removeAttribute('aria-invalid');
           const error = document.getElementById(`${control.id}-error`);
           if (error) error.textContent = '';
-          if (errors) errors.hidden = true;
+          updateErrorSummary();
         });
       });
       form.addEventListener('submit', async (event) => {
@@ -95,7 +117,7 @@ export function initConsultationForms(): void {
           if (!valid && !firstInvalid) firstInvalid = control;
         });
         if (firstInvalid) {
-          if (errors) errors.hidden = false;
+          updateErrorSummary();
           const details = firstInvalid.closest('details');
           if (details) details.open = true;
           firstInvalid.focus();

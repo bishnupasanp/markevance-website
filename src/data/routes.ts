@@ -127,6 +127,18 @@ export const routes: readonly RouteDefinition[] = [
     indexable: false,
   },
   {
+    path: '/client-portal/',
+    title: 'Client portal',
+    intent: 'Invitation-only client account sign-in',
+    indexable: false,
+  },
+  {
+    path: '/client-portal/dashboard/',
+    title: 'Client workspace',
+    intent: 'Client-scoped website reporting and delivery progress',
+    indexable: false,
+  },
+  {
     path: '/thank-you/',
     title: 'Submission Confirmation',
     intent: 'Accepted submission handoff only',

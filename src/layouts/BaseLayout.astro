@@ -12,6 +12,8 @@ interface Props {
   metadata: PageMetadata;
 }
 const { metadata } = Astro.props;
+Astro.csp?.insertDirective("connect-src 'none'");
+Astro.csp?.insertDirective('form-action https://formspree.io');
 ---
 
 <!doctype html>

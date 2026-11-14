@@ -9,6 +9,8 @@ export function initializeOverviewMotion(): void {
   if (!('animate' in Element.prototype)) return;
 
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const listeners = new AbortController();
+  const options = { signal: listeners.signal };
   const running = new Set<Animation>();
   const revealed = new WeakSet<Element>();
   const easing = 'cubic-bezier(0.2, 0.7, 0.2, 1)';
@@ -47,11 +49,8 @@ export function initializeOverviewMotion(): void {
           if (entry.target.contains(document.activeElement)) return;
           animate(
             entry.target,
-            [
-              { opacity: 0.65, transform: 'translateY(14px)' },
-              { opacity: 1, transform: 'translateY(0)' },
-            ],
-            650,
+            [{ transform: 'translateY(14px)' }, { transform: 'translateY(0)' }],
+            550,
           );
         });
       },
@@ -59,22 +58,28 @@ export function initializeOverviewMotion(): void {
     );
     root
       .querySelectorAll(
-        '.overview-heading, .overview-services > li, .overview-models, .overview-industry-pair > article, .overview-approach, .overview-insights, .final-cta-layout',
+        '[data-overview-reveal], .overview-heading, .overview-models, .overview-insights',
       )
       .forEach((element) => {
         if (!revealed.has(element)) observer?.observe(element);
       });
   };
-  preference.addEventListener('change', sync);
-  document.addEventListener('visibilitychange', sync);
+  preference.addEventListener('change', sync, options);
+  document.addEventListener('visibilitychange', sync, options);
   // Stop offscreen work, and resume observation after a back/forward-cache restore.
-  window.addEventListener('pagehide', () => {
-    observer?.disconnect();
-    cancel();
-  });
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) sync();
-  });
-  root.addEventListener('focusin', cancel);
+  window.addEventListener(
+    'pagehide',
+    () => {
+      observer?.disconnect();
+      cancel();
+      listeners.abort();
+      delete root.dataset.overviewMotion;
+      window.addEventListener('pageshow', () => initializeOverviewMotion(), {
+        once: true,
+      });
+    },
+    { once: true },
+  );
+  root.addEventListener('focusin', cancel, options);
   sync();
 }

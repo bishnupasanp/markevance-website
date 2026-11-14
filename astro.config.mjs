@@ -16,8 +16,6 @@ export default defineConfig({
         "default-src 'self'",
         "base-uri 'none'",
         "object-src 'none'",
-        "connect-src 'none'",
-        'form-action https://formspree.io',
         "frame-src 'none'",
         "font-src 'self'",
         "img-src 'self'",

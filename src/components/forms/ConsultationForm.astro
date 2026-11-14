@@ -37,7 +37,8 @@ const endpoint = resolveFormspreeEndpoint(
       />
       <input type="hidden" name="sourcePath" value="/book-consultation/" />
       <div class="intake-errors" data-form-errors role="alert" hidden>
-        Please check the highlighted fields. Your details have not been sent.
+        <p>Please check these fields. Your details have not been sent.</p>
+        <ul data-error-links></ul>
       </div>
       <fieldset class="intake-group">
         <legend>
@@ -324,6 +325,15 @@ const endpoint = resolveFormspreeEndpoint(
   }
   .intake-errors {
     margin-bottom: 1.5rem;
+  }
+  .intake-errors ul {
+    margin-top: 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .intake-errors a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target);
   }
   .intake-submit button:disabled {
     opacity: 0.75;

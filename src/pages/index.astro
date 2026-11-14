@@ -5,7 +5,6 @@ import HomeOverview from '../components/home/HomeOverview.astro';
 import HomeCTA from '../components/home/HomeCTA.astro';
 import { siteConfig } from '../data/site.ts';
 import { getRoute } from '../data/routes.ts';
-import '../styles/home.css';
 import '../styles/home-overview.css';
 ---
 
@@ -26,5 +25,6 @@ import '../styles/home-overview.css';
 
 <script>
   import { initializeOverviewMotion } from '../components/motion/overview-motion.ts';
-  initializeOverviewMotion();
+  // Let the static page and its local fonts settle before decorative work.
+  window.addEventListener('load', initializeOverviewMotion, { once: true });
 </script>

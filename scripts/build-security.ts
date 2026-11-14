@@ -39,7 +39,11 @@ export function assertSafeBuildText(value: string, path: string): void {
   );
 }
 
-export function assertPageCsp(html: string, path: string): void {
+export function assertPageCsp(
+  html: string,
+  path: string,
+  portal = false,
+): void {
   const meta = html.match(
     /<meta\b[^>]*http-equiv="content-security-policy"[^>]*>/i,
   )?.[0];
@@ -48,12 +52,21 @@ export function assertPageCsp(html: string, path: string): void {
     .match(/\bcontent="([^"]+)"/i)?.[1]
     ?.replace(/&#(?:39|x27);/gi, "'");
   assert.ok(policy, `${path}: empty CSP`);
+  const portalOrigin = portal
+    ? html.match(/<meta name="portal-auth-origin" content="([^"]+)"/)?.[1]
+    : undefined;
+  if (portalOrigin)
+    assert.match(
+      portalOrigin,
+      /^https:\/\/[a-z0-9-]+\.supabase\.co$/,
+      'Portal connections must target a single Supabase project.',
+    );
   for (const directive of [
     "default-src 'self'",
     "base-uri 'none'",
     "object-src 'none'",
-    "connect-src 'none'",
-    'form-action https://formspree.io',
+    `connect-src ${portalOrigin ?? "'none'"}`,
+    portal ? "form-action 'self'" : 'form-action https://formspree.io',
     "frame-src 'none'",
     "script-src-attr 'none'",
   ])

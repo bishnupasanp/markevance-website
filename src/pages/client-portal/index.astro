@@ -1,0 +1,226 @@
+---
+import PortalLayout from '../../layouts/PortalLayout.astro';
+import BrandArtwork from '../../components/ui/BrandArtwork.astro';
+import { resolvePortalConfig } from '../../lib/portal/model.ts';
+const configured = Boolean(
+  resolvePortalConfig(
+    import.meta.env.PUBLIC_PORTAL_SUPABASE_URL,
+    import.meta.env.PUBLIC_PORTAL_SUPABASE_PUBLISHABLE_KEY,
+  ),
+);
+---
+
+<PortalLayout title="Client portal" path="/client-portal/">
+  <div class="portal-login-layout">
+    <aside class="login-story">
+      <a
+        href="/"
+        aria-label="Markevance Growth Marketing & Sales Development home"
+        class="portal-brand"
+      >
+        <BrandArtwork />
+      </a>
+      <div class="login-story-copy">
+        <p class="portal-kicker">YOUR GROWTH, IN VIEW</p>
+        <h2>
+          A clearer picture.
+          <br />A shared direction.
+        </h2>
+        <p>
+          See how your website is performing, what’s moving forward, and where
+          we go next.
+        </p>
+        <div class="login-preview" aria-hidden="true">
+          <span>THE CONNECTED VIEW</span>
+          <div class="login-preview-line">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+          <div class="login-preview-labels">
+            <b>Performance</b>
+            <b>Progress</b>
+            <b>Next steps</b>
+          </div>
+        </div>
+      </div>
+      <p class="login-story-footer">MARKEVANCE · CLIENT WORKSPACE</p>
+    </aside>
+    <main id="portal-main" class="portal-login-main" tabindex="-1">
+      <a class="portal-back" href="/">
+        ← Back to Markevance
+      </a>
+      <div class="portal-login-card">
+        <p class="portal-kicker">WELCOME BACK</p>
+        <h1 data-login-title>Your workspace awaits.</h1>
+        <p class="portal-muted" data-login-description>
+          Sign in with the email associated with your client account.
+        </p>
+        {!configured && (
+          <p class="portal-setup-note">
+            Client sign-in is awaiting account setup. Explore the sample
+            workspace below.
+          </p>
+        )}
+        <form id="portal-login-form" action="/client-portal/" method="post">
+          <label for="portal-email">Work email</label>
+          <input
+            id="portal-email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            placeholder="you@company.com"
+            required
+            maxlength="254"
+            disabled
+          />
+          <div class="portal-label-row">
+            <label for="portal-password">Password</label>
+            <button
+              type="button"
+              class="portal-text-button"
+              data-reset-password
+              disabled
+            >
+              Forgot password?
+            </button>
+          </div>
+          <input
+            id="portal-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            maxlength="256"
+            disabled
+          />
+          <button class="portal-button" type="submit" disabled data-signin>
+            Sign in <span aria-hidden="true">↗</span>
+          </button>
+          <p
+            class="portal-form-status"
+            role="status"
+            aria-live="polite"
+            data-login-status
+          ></p>
+          <noscript>
+            <p>Enable JavaScript to sign in to your workspace.</p>
+          </noscript>
+        </form>
+        <div class="login-divider">
+          <span>TAKE A LOOK AROUND</span>
+        </div>
+        <a
+          href="/client-portal/dashboard/?demo=1"
+          class="portal-button portal-button-secondary"
+        >
+          Explore a sample workspace <span aria-hidden="true">→</span>
+        </a>
+        <p class="portal-login-help">
+          Need access?{' '}
+          <a href="mailto:growwith@markevance.com">
+            Contact your Markevance team
+          </a>
+        </p>
+        <p class="portal-security-note">
+          Invitation-only accounts · Access scoped to your business
+        </p>
+      </div>
+      <footer class="login-bottom">
+        <a href="/privacy-policy/">Privacy</a>
+        <span>© {new Date().getFullYear()} Markevance</span>
+      </footer>
+    </main>
+  </div>
+</PortalLayout>
+<script>
+  import { portalClient } from '../../lib/portal/client.ts';
+  const form = document.querySelector<HTMLFormElement>('#portal-login-form')!;
+  const email = document.querySelector<HTMLInputElement>('#portal-email')!;
+  const password =
+    document.querySelector<HTMLInputElement>('#portal-password')!;
+  const status = document.querySelector<HTMLElement>('[data-login-status]')!;
+  const submit = document.querySelector<HTMLButtonElement>('[data-signin]')!;
+  const reset = document.querySelector<HTMLButtonElement>(
+    '[data-reset-password]',
+  )!;
+  let recovery = false;
+  const recoveryRequested =
+    new URLSearchParams(location.hash.slice(1)).get('type') === 'recovery' ||
+    new URLSearchParams(location.hash.slice(1)).get('type') === 'invite';
+  function showRecovery() {
+    recovery = true;
+    document.querySelector<HTMLElement>('[data-login-title]')!.textContent =
+      'Choose your password.';
+    document.querySelector<HTMLElement>(
+      '[data-login-description]',
+    )!.textContent =
+      'Use at least 12 characters for your client account password.';
+    email.required = false;
+    email.disabled = true;
+    password.autocomplete = 'new-password';
+    password.minLength = 12;
+    reset.hidden = true;
+    submit.textContent = 'Save password and continue';
+  }
+  portalClient?.auth.onAuthStateChange((event) => {
+    if (
+      event === 'PASSWORD_RECOVERY' ||
+      (event === 'SIGNED_IN' && recoveryRequested)
+    )
+      showRecovery();
+  });
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!portalClient || !form.reportValidity()) return;
+    submit.disabled = true;
+    status.textContent = recovery ? 'Saving your password…' : 'Signing you in…';
+    try {
+      const result = recovery
+        ? await portalClient.auth.updateUser({ password: password.value })
+        : await portalClient.auth.signInWithPassword({
+            email: email.value.trim(),
+            password: password.value,
+          });
+      if (result.error)
+        throw new Error(
+          'Please check your details or request a new password link.',
+        );
+      password.value = '';
+      location.assign('/client-portal/dashboard/');
+    } catch {
+      status.textContent =
+        'Sign-in could not be completed. Check your details and try again.';
+      submit.disabled = false;
+    }
+  });
+  reset.addEventListener('click', async () => {
+    if (!portalClient || !email.reportValidity()) return;
+    reset.disabled = true;
+    status.textContent = 'Requesting your password link…';
+    try {
+      const { error } = await portalClient.auth.resetPasswordForEmail(
+        email.value.trim(),
+        { redirectTo: `${location.origin}/client-portal/` },
+      );
+      if (error) throw error;
+      status.textContent =
+        'If this email has an account, you’ll receive a password link. Please check your inbox.';
+    } catch {
+      status.textContent =
+        'We could not request the link. Please try again later.';
+    }
+    reset.disabled = false;
+  });
+  if (portalClient) {
+    email.disabled = false;
+    password.disabled = false;
+    submit.disabled = false;
+    reset.disabled = false;
+  }
+</script>

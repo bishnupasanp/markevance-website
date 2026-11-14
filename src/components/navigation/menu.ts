@@ -17,6 +17,14 @@ export function initializeMenu(): void {
     if (event.target instanceof Element && event.target.closest('a'))
       menu.open = false;
   });
+  document.addEventListener('pointerdown', (event) => {
+    if (
+      menu.open &&
+      event.target instanceof Node &&
+      !menu.contains(event.target)
+    )
+      menu.open = false;
+  });
   menu.addEventListener('focusout', (event) => {
     if (
       event.relatedTarget instanceof Node &&

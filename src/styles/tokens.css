@@ -15,6 +15,7 @@
   --color-text-muted: #596579;
   --color-border: #263246;
   --color-border-light: #d8dfe8;
+  --color-surface-light: #eef1f5;
   --color-link: var(--color-brand);
   --color-link-hover: var(--color-brand-hover);
   /* Cobalt itself is for large dark-surface text/strokes; small links need 4.5:1. */
@@ -57,6 +58,7 @@
   --duration-standard: 400ms;
   --duration-reveal: 700ms;
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-brand: 0 8px 24px #1d63ed20;
   --touch-target: 2.75rem;
   --logo-width: 15rem;
   --logo-mobile-width: clamp(9rem, 45vw, 12rem);
