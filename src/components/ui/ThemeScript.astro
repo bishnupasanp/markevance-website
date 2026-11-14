@@ -1,0 +1,6 @@
+---
+import { themeBootstrap } from './theme-bootstrap.ts';
+---
+
+<!-- Run before page content. The layout authorizes these exact bytes in its CSP. -->
+<script is:inline set:html={themeBootstrap} />

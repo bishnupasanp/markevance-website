@@ -1,0 +1,55 @@
+/* Section tokens retain their hierarchy within each visitor-selected palette. */
+html {
+  color-scheme: light;
+}
+html[data-color-mode='light'] {
+  --color-background-dark: #f3f5f9;
+  --color-surface-dark: #ffffff;
+  --color-text-light: #152238;
+  --color-text-muted-dark: #536279;
+  --color-border: #d3dce9;
+  --color-link-dark: #1854cc;
+  --color-focus-dark: #1d63ed;
+  --color-accent-prestige: #866337;
+}
+html[data-color-mode='dark'] {
+  color-scheme: dark;
+  --color-background-light: #0e1725;
+  --color-surface-light: #172337;
+  --color-text-dark: #f0f3f9;
+  --color-text-secondary: #b1bdcf;
+  --color-text-muted: #9daec5;
+  --color-border-light: #2b3a50;
+  --color-link: #8ab1ff;
+  --color-link-hover: #b4ccff;
+  --color-focus: #8ab1ff;
+}
+.theme-toggle {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: 1px solid var(--border-dark);
+  border-radius: 50%;
+  color: var(--color-text-light);
+  background: transparent;
+  transition: background-color var(--duration-micro) var(--ease-standard);
+}
+.theme-toggle:hover {
+  background: var(--color-surface-dark);
+}
+.theme-toggle svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.theme-sun {
+  display: none;
+}
+html[data-color-mode='dark'] .theme-sun {
+  display: block;
+}
+html[data-color-mode='dark'] .theme-moon {
+  display: none;
+}

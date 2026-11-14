@@ -1,6 +1,7 @@
 ---
 import LinkButton from '../ui/LinkButton.astro';
-import { mainNavigation } from '../../data/navigation.ts';
+import { mainNavigation, serviceNavigation } from '../../data/navigation.ts';
+import Icon from '../ui/Icon.astro';
 interface Props {
   mobile?: boolean;
 }
@@ -26,11 +27,36 @@ const path = Astro.url.pathname;
           aria-current={path === item.href ? 'page' : undefined}
         >
           {item.label}
+          {mobile && <Icon name="arrow-up-right" />}
         </a>
       </li>
     ))}
   </ul>
-  <LinkButton href="/book-consultation/">Book a Growth Consultation</LinkButton>
+  {mobile && (
+    <div class="menu-services">
+      <p>Solutions</p>
+      <ul>
+        {serviceNavigation.map((item) => (
+          <li>
+            <a href={item.href}>
+              {item.label}
+              <Icon name="arrow-up-right" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+  <div class="navigation-actions">
+    <LinkButton href="/book-consultation/">
+      Let’s talk <Icon name="arrow-up-right" />
+    </LinkButton>
+    {mobile && (
+      <a class="menu-portal" href="/client-portal/">
+        Client portal <Icon name="arrow-up-right" />
+      </a>
+    )}
+  </div>
 </nav>
 <style>
   .primary-navigation {
@@ -38,23 +64,31 @@ const path = Astro.url.pathname;
     min-width: 0;
   }
   .primary-navigation--mobile {
-    display: block;
+    display: grid;
+    gap: 1.75rem;
     position: absolute;
     inset: 100% 0 auto;
     z-index: 10;
-    padding: 1rem var(--space-gutter) 1.5rem;
+    padding: 1.5rem
+      max(
+        var(--space-gutter),
+        calc((100% - var(--container-site)) / 2 + var(--space-gutter))
+      )
+      1.75rem;
     background: var(--color-background-dark);
     border-bottom: 1px solid var(--border-dark);
     max-height: calc(100dvh - var(--header-mobile-height));
     overflow-y: auto;
     overscroll-behavior: contain;
+    box-shadow: 0 24px 40px #00000012;
+    animation: menu-enter 180ms var(--ease-standard);
   }
   ul {
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem 1rem;
     padding: 0;
-    margin: 0 0 1rem;
+    margin: 0;
     list-style: none;
   }
   ul a {
@@ -62,22 +96,103 @@ const path = Astro.url.pathname;
     min-height: var(--touch-target);
     align-items: center;
     text-decoration: none;
-    color: var(--color-text-muted-dark);
+    color: var(--color-text-light);
     font-size: var(--text-small);
     transition: color var(--duration-micro) var(--ease-standard);
   }
   a[data-active='true'],
   ul a:hover {
     color: var(--color-link-dark);
-    text-decoration: underline;
+    text-decoration: none;
+  }
+  .primary-navigation--mobile > ul {
+    display: grid;
+    gap: 0;
+  }
+  .primary-navigation--mobile > ul a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.625rem;
+    border-bottom: 1px solid var(--border-dark);
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .primary-navigation--mobile :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+  .menu-services {
+    display: none;
+  }
+  .navigation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+  }
+  .menu-portal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: var(--touch-target);
+    color: var(--color-text-muted-dark);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  .menu-portal:hover {
+    color: var(--color-link-dark);
+  }
+  @keyframes menu-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (min-width: 40rem) {
+    .primary-navigation--mobile {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1.5rem 4rem;
+      padding-block: 2.5rem;
+    }
+    .menu-services {
+      display: block;
+    }
+    .menu-services p {
+      font: 400 0.6875rem var(--font-mono);
+      color: var(--color-text-muted-dark);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .menu-services ul {
+      display: grid;
+      gap: 0;
+    }
+    .menu-services a {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      color: var(--color-text-muted-dark);
+    }
+    .primary-navigation--mobile .navigation-actions {
+      grid-column: 1 / -1;
+    }
   }
   @media (min-width: 80rem) {
     .primary-navigation:not(.primary-navigation--mobile) {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       justify-content: flex-end;
-      gap: 1.5rem;
+      gap: 1.25rem;
       grid-column: 2;
       grid-row: 1;
     }
@@ -85,11 +200,20 @@ const path = Astro.url.pathname;
       flex-shrink: 0;
     }
     ul {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      gap: 0.125rem;
       margin: 0;
     }
     ul a {
       white-space: nowrap;
+      padding: 0.5rem 0.625rem;
+      border-radius: 999px;
+      color: var(--color-text-muted-dark);
+    }
+    a[data-active='true'],
+    ul a:hover {
+      background: var(--color-surface-dark);
+      color: var(--color-text-light);
     }
   }
 </style>

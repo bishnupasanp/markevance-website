@@ -7,8 +7,8 @@
   --color-background-dark: #080e18;
   --color-surface-dark: #121c2b;
   --color-background-light: #f8f9fa;
-  --color-text-dark: var(--color-background-dark);
-  --color-text-light: var(--color-background-light);
+  --color-text-dark: #080e18;
+  --color-text-light: #f8f9fa;
   --color-text-muted-dark: #8692a6;
   /* Steel-derived light-surface copy: 7.17:1 / 5.59:1 on Alabaster. */
   --color-text-secondary: #485569;
@@ -20,7 +20,7 @@
   --color-link-hover: var(--color-brand-hover);
   /* Cobalt itself is for large dark-surface text/strokes; small links need 4.5:1. */
   --color-link-dark: #80abff;
-  --color-action-text: var(--color-text-light);
+  --color-action-text: #f8f9fa;
   --color-focus: var(--color-brand);
   --color-focus-dark: var(--color-link-dark);
   --font-sans:

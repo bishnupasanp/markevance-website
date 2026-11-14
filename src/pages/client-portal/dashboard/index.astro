@@ -1,6 +1,7 @@
 ---
 import PortalLayout from '../../../layouts/PortalLayout.astro';
 import BrandArtwork from '../../../components/ui/BrandArtwork.astro';
+import ThemeToggle from '../../../components/ui/ThemeToggle.astro';
 const sections = [
   ['overview', 'Overview', '◫'],
   ['performance', 'Website performance', '↗'],
@@ -65,6 +66,7 @@ const sections = [
           <span class="portal-avatar" data-avatar>
             —
           </span>
+          <ThemeToggle />
         </div>
       </header>
       <div class="portal-sample-banner" data-sample-banner hidden>

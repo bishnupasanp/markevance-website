@@ -1,6 +1,7 @@
 ---
 import PortalLayout from '../../layouts/PortalLayout.astro';
 import BrandArtwork from '../../components/ui/BrandArtwork.astro';
+import ThemeToggle from '../../components/ui/ThemeToggle.astro';
 import { resolvePortalConfig } from '../../lib/portal/model.ts';
 const configured = Boolean(
   resolvePortalConfig(
@@ -52,9 +53,12 @@ const configured = Boolean(
       <p class="login-story-footer">MARKEVANCE · CLIENT WORKSPACE</p>
     </aside>
     <main id="portal-main" class="portal-login-main" tabindex="-1">
-      <a class="portal-back" href="/">
-        ← Back to Markevance
-      </a>
+      <div class="portal-login-tools">
+        <a class="portal-back" href="/">
+          ← Back to Markevance
+        </a>
+        <ThemeToggle />
+      </div>
       <div class="portal-login-card">
         <p class="portal-kicker">WELCOME BACK</p>
         <h1 data-login-title>Your workspace awaits.</h1>
