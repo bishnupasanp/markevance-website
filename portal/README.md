@@ -19,7 +19,7 @@ data. Public markup contains the interface shell and synthetic sample fixture.
 1. Create or select a Supabase project and apply `portal/schema.sql` in its SQL
    editor. Disable public signup in Auth settings. Set the password policy to at
    least 12 characters and enable available password and rate-limit protections.
-2. Set the production Site URL to `https://markevance.com` and allow the exact
+2. Set the production Site URL to `https://markevance.com/client-portal/` and allow the exact
    redirect `https://markevance.com/client-portal/`. Add the corresponding local
    URL while testing. Review the project's authentication email delivery before
    inviting customers. Hosting email and DNS settings are separate configuration.
@@ -56,5 +56,12 @@ Client rows render as text and numeric chart primitives. Only the portal pages
 allow connections to the configured project. Marketing pages keep their existing
 connection and form policies. Private service keys never belong in this codebase.
 
-The database policies and authentication integration are prepared but require a
-configured project and live two-user verification before customer use.
+Account invitations, password recovery and reporting should be exercised with
+the intended client accounts before customer use.
+
+The connected production project is `markevance` (`wnmsdnlxqdvkbaahnmms`) in
+Singapore. Its portal tables and policies are applied. Anonymous access and
+client writes are denied, and a rolled-back two-account database check verified
+workspace isolation and the empty state for unassigned accounts. Production and
+local portal redirects are configured. Account invitations and published client
+reports are managed separately from the website build.

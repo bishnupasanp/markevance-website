@@ -9,7 +9,7 @@ export const legalPages: readonly LegalDefinition[] = [
     reviewPending: true,
     title: 'Privacy Policy',
     description:
-      'How the Markevance website handles browsing, consultation enquiries through Formspree and unavailable newsletter subscriptions.',
+      'How Markevance handles browsing, consultation enquiries, client portal accounts and browser storage.',
     intro:
       'This page describes the information-handling features currently present on the Markevance website.',
     sections: [
@@ -25,8 +25,17 @@ export const legalPages: readonly LegalDefinition[] = [
         id: 'browsing',
         title: 'Browsing the website',
         paragraphs: [
-          'You can read the public pages without creating an account. This website has no client login, payment flow or public dashboard.',
+          'You can read the public pages without creating an account. Invited clients can sign in to a separate workspace to view reporting and delivery progress for their assigned business.',
           'The page, style, script and font files are delivered as website assets. Fonts are hosted with the site rather than requested from a runtime Google Fonts service.',
+        ],
+      },
+      {
+        id: 'client-portal',
+        title: 'Client portal accounts and reporting',
+        paragraphs: [
+          'The client portal uses Supabase for authentication and workspace records. Your email address and password are sent directly to Supabase when you sign in. Account and reporting records use the Markevance Supabase project in Singapore.',
+          'Markevance manages account invitations, workspace assignments and published reporting snapshots. Signed-in clients can read records for their assigned business. Supabase processes these records as part of providing its authentication and database services.',
+          'The sample workspace contains labelled synthetic data. Website analytics and other reporting sources require separate connections before their data can appear in a client workspace.',
         ],
       },
       {
@@ -69,6 +78,7 @@ export const legalPages: readonly LegalDefinition[] = [
         title: 'Analytics and browser storage',
         paragraphs: [
           'The website application currently has no analytics or visitor-tracking provider connected and does not use cookies, local storage or session storage to create a visitor profile.',
+          'The light/dark preference is saved in local storage under markevance-color-mode. The client portal stores its authentication session in tab-scoped session storage under markevance-portal-session so that account access can continue while navigating the portal. These features support appearance and sign-in.',
           'Website delivery is separate from these application features. The hosting server may process ordinary connection information or access logs when serving a page. The site does not offer an account interface for viewing server records; hosting-provider practices require separate review.',
         ],
       },
@@ -148,6 +158,7 @@ export const legalPages: readonly LegalDefinition[] = [
         title: 'Current application behaviour',
         paragraphs: [
           'The website application currently sets no analytics or visitor-tracking cookies and does not use local storage or session storage to keep enquiry details or subscription information.',
+          'Local storage remembers your light/dark preference under markevance-color-mode. The client portal uses tab-scoped session storage under markevance-portal-session for authentication tokens and session information supplied by Supabase. You can sign out through the workspace and use browser settings to clear stored site data.',
           'Consultation details are submitted to Formspree when you send a request. They are not saved by this application in local storage or session storage. Newsletter signup is not active. The navigation menu and process diagrams keep their interactive state only while the page is open.',
         ],
       },
