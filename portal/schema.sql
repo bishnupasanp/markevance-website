@@ -14,6 +14,8 @@ create table if not exists public.portal_memberships (
   client_id uuid not null references public.portal_clients(id) on delete cascade,
   primary key (user_id, client_id)
 );
+create index if not exists portal_memberships_client_id_idx
+  on public.portal_memberships (client_id);
 create table if not exists public.portal_snapshots (
   client_id uuid not null references public.portal_clients(id) on delete cascade,
   period_days integer not null check (period_days in (7, 28, 90)),
