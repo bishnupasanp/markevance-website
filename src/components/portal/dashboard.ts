@@ -2,6 +2,7 @@ import { sampleSnapshot, sampleWorkspace } from '../../data/portal-demo.ts';
 import {
   loadClientWorkspace,
   portalClient,
+  portalPasswordSetupKey,
   portalSessionKey,
 } from '../../lib/portal/client.ts';
 import {
@@ -487,6 +488,7 @@ document
       if (!demo) {
         for (const key of [
           portalSessionKey,
+          portalPasswordSetupKey,
           `${portalSessionKey}-user`,
           `${portalSessionKey}-code-verifier`,
         ])

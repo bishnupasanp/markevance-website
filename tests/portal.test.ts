@@ -6,9 +6,22 @@ import {
   parseWorkspace,
   percentageChange,
   resolvePortalConfig,
+  needsPortalPasswordSetup,
 } from '../src/lib/portal/model.ts';
 import { sampleSnapshot } from '../src/data/portal-demo.ts';
 import { assertPageCsp } from '../scripts/build-security.ts';
+
+test('invitation and recovery setup survives callback consumption and reload', () => {
+  assert.equal(needsPortalPasswordSetup('#type=invite', '', null), true);
+  assert.equal(needsPortalPasswordSetup('#type=recovery', '', null), true);
+  assert.equal(needsPortalPasswordSetup('', '', 'pending'), true);
+  assert.equal(
+    needsPortalPasswordSetup('', '?action=set-password', null),
+    true,
+  );
+  assert.equal(needsPortalPasswordSetup('#type=signup', '', null), false);
+  assert.equal(needsPortalPasswordSetup('', '', null), false);
+});
 
 test('portal accepts only a single HTTPS Supabase project and browser publishable key', () => {
   const key = 'sb_publishable_controlled_fixture_0123456789';
