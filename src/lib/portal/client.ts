@@ -1,11 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
-import { parseSnapshot, parseWorkspace, resolvePortalConfig } from './model.ts';
+import {
+  needsPortalPasswordSetup,
+  parseSnapshot,
+  parseWorkspace,
+  resolvePortalConfig,
+} from './model.ts';
 
 const config = resolvePortalConfig(
   import.meta.env.PUBLIC_PORTAL_SUPABASE_URL,
   import.meta.env.PUBLIC_PORTAL_SUPABASE_PUBLISHABLE_KEY,
 );
 export const portalSessionKey = 'markevance-portal-session';
+export const portalPasswordSetupKey = 'markevance-portal-password-setup';
+// Capture intent before the SDK consumes the callback and clears its URL hash.
+export const portalPasswordSetupRequested = needsPortalPasswordSetup(
+  location.hash,
+  location.search,
+  sessionStorage.getItem(portalPasswordSetupKey),
+);
+if (portalPasswordSetupRequested)
+  sessionStorage.setItem(portalPasswordSetupKey, 'pending');
 export const portalClient = config
   ? createClient(config.url, config.key, {
       auth: {

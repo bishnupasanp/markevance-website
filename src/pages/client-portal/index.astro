@@ -143,7 +143,11 @@ const configured = Boolean(
   </div>
 </PortalLayout>
 <script>
-  import { portalClient } from '../../lib/portal/client.ts';
+  import {
+    portalClient,
+    portalPasswordSetupKey,
+    portalPasswordSetupRequested,
+  } from '../../lib/portal/client.ts';
   const form = document.querySelector<HTMLFormElement>('#portal-login-form')!;
   const email = document.querySelector<HTMLInputElement>('#portal-email')!;
   const password =
@@ -154,11 +158,9 @@ const configured = Boolean(
     '[data-reset-password]',
   )!;
   let recovery = false;
-  const recoveryRequested =
-    new URLSearchParams(location.hash.slice(1)).get('type') === 'recovery' ||
-    new URLSearchParams(location.hash.slice(1)).get('type') === 'invite';
   function showRecovery() {
     recovery = true;
+    sessionStorage.setItem(portalPasswordSetupKey, 'pending');
     document.querySelector<HTMLElement>('[data-login-title]')!.textContent =
       'Choose your password.';
     document.querySelector<HTMLElement>(
@@ -172,20 +174,25 @@ const configured = Boolean(
     reset.hidden = true;
     submit.textContent = 'Save password and continue';
   }
-  portalClient?.auth.onAuthStateChange((event) => {
+  portalClient?.auth.onAuthStateChange((event, session) => {
     if (
       event === 'PASSWORD_RECOVERY' ||
-      (event === 'SIGNED_IN' && recoveryRequested)
+      (session &&
+        (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') &&
+        portalPasswordSetupRequested)
     )
       showRecovery();
   });
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!portalClient || !form.reportValidity()) return;
+    const savingPassword = recovery;
     submit.disabled = true;
-    status.textContent = recovery ? 'Saving your password…' : 'Signing you in…';
+    status.textContent = savingPassword
+      ? 'Saving your password…'
+      : 'Signing you in…';
     try {
-      const result = recovery
+      const result = savingPassword
         ? await portalClient.auth.updateUser({ password: password.value })
         : await portalClient.auth.signInWithPassword({
             email: email.value.trim(),
@@ -196,10 +203,19 @@ const configured = Boolean(
           'Please check your details or request a new password link.',
         );
       password.value = '';
+      if (!savingPassword && portalPasswordSetupRequested) {
+        showRecovery();
+        submit.disabled = false;
+        status.textContent = 'Choose your new password to continue.';
+        password.focus();
+        return;
+      }
+      if (savingPassword) sessionStorage.removeItem(portalPasswordSetupKey);
       location.assign('/client-portal/dashboard/');
     } catch {
-      status.textContent =
-        'Sign-in could not be completed. Check your details and try again.';
+      status.textContent = savingPassword
+        ? 'Your password could not be saved. Use at least 12 characters, or request a new password link.'
+        : 'Sign-in could not be completed. Check your details and try again.';
       submit.disabled = false;
     }
   });

@@ -29,6 +29,20 @@ export interface PortalWorkspace {
   website: string;
 }
 
+export function needsPortalPasswordSetup(
+  hash: string,
+  search: string,
+  savedIntent: string | null,
+): boolean {
+  const type = new URLSearchParams(hash.replace(/^#/, '')).get('type');
+  return (
+    type === 'invite' ||
+    type === 'recovery' ||
+    new URLSearchParams(search).get('action') === 'set-password' ||
+    savedIntent === 'pending'
+  );
+}
+
 export function resolvePortalConfig(url: unknown, key: unknown) {
   if (!url && !key) return null;
   if (typeof url !== 'string' || typeof key !== 'string')
